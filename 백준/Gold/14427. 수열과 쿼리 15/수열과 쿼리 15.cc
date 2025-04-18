@@ -1,11 +1,21 @@
-#include<iostream>
+#include<stdio.h>
 #include<vector>
 #include<cmath>
-#include<sstream>
 
 using namespace std;
 
 const int MAX = 0x7FFFFFFF;
+char output_buffer[500000];
+char* out_ptr = output_buffer;
+
+void write(int x) {
+	if (x > 9) write(x / 10);
+	*out_ptr++ = x % 10 + '0';
+}
+
+void flush_output() {
+	fwrite(output_buffer, 1, out_ptr - output_buffer, stdout);
+}
 
 char get() {
 	static char buf[500000], * S = buf, * T = buf;
@@ -47,12 +57,13 @@ int main() {
 	}
 	init(tree, size);
 	read(N);
-	ostringstream oss;
 	while (N--) {
 		int x;
 		read(x);
-		if (x == 2)
-			oss << tree[1].second << '\n';
+		if (x == 2) {
+			write(tree[1].second);
+			*out_ptr++ = '\n';
+		}
 		else {
 			int y, z;
 			read(y);
@@ -60,5 +71,5 @@ int main() {
 			modify(tree, size, y, z);
 		}
 	}
-	cout << oss.str();
+	flush_output();
 }
