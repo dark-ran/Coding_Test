@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<cmath>
+#include<sstream>
 
 using namespace std;
 
@@ -46,11 +47,12 @@ int main() {
 	}
 	init(tree, size);
 	read(N);
+	ostringstream oss;
 	while (N--) {
 		int x;
 		read(x);
 		if (x == 2)
-			cout << tree[1].second << "\n";
+			oss << tree[1].second << '\n';
 		else {
 			int y, z;
 			read(y);
@@ -58,4 +60,5 @@ int main() {
 			modify(tree, size, y, z);
 		}
 	}
+	cout << oss.str();
 }
