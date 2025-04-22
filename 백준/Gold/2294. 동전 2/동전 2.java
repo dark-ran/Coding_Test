@@ -1,4 +1,3 @@
-import java.util.Arrays;
 public class Main {
     static int read() throws Exception {
         int c, n = 0;
@@ -21,11 +20,9 @@ public class Main {
                 vis[x]=true;
             }
         }
-        Arrays.sort(arr,0,idx-1);
         for(int i=0;i<k;i++){
             for(int j=0;j<idx;j++){
-                if(i+arr[j]>k) break;
-                dp[i+arr[j]]=dp[i]+1<dp[i+arr[j]]?dp[i]+1:dp[i+arr[j]];
+                if(i+arr[j]<=k)dp[i+arr[j]]=dp[i]+1<dp[i+arr[j]]?dp[i]+1:dp[i+arr[j]];
             }
         }
         System.out.print(dp[k]==2000000000?-1:dp[k]);
