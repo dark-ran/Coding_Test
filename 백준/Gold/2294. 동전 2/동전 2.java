@@ -19,17 +19,13 @@ public class Main {
             if(!vis[x] && x<=k){
                 arr[idx++]=x;
                 vis[x]=true;
-                dp[x]=1;
             }
         }
         Arrays.sort(arr,0,idx-1);
-        for(int i=1;i<k;i++){
-            if(dp[i]!=0){
-                for(int j=0;j<idx;j++){
-                    if(i+arr[j]>k) break;
-                    if(dp[i+arr[j]]==0) dp[i+arr[j]]=dp[i]+1;
-                    else dp[i+arr[j]]=dp[i]+1<dp[i+arr[j]]?dp[i]+1:dp[i+arr[j]];
-                }
+        for(int i=0;i<k;i++){
+            for(int j=0;j<idx;j++){
+                if(i+arr[j]>k) break;
+                dp[i+arr[j]]=dp[i]+1<dp[i+arr[j]]?dp[i]+1:dp[i+arr[j]];
             }
         }
         System.out.print(dp[k]==2000000000?-1:dp[k]);
