@@ -22,11 +22,6 @@ public class Main {
                 left++;
             }
         }
-
-        if (cnt == 100001) {
-            System.out.print(0);
-        } else {
-            System.out.print(cnt);
-        }
+        System.out.print(cnt==100001?0:cnt);
     }
 }
