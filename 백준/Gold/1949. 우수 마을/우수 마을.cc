@@ -1,11 +1,9 @@
 #include<stdio.h>
 #include<vector>
-#include<queue>
 
 using namespace std;
 
-const int MAX = 0x7FFFFFFF;
-char output_buffer[700000];
+char output_buffer[10];
 char* out_ptr = output_buffer;
 
 void write(int x) {
@@ -22,20 +20,15 @@ void flush() {
 char get() {
 	static char buf[3000], * S = buf, * T = buf;
 	if (S == T) {
-		T = (S = buf) + fread(buf, 1, 1, stdin);
+		T = (S = buf) + fread(buf, 1, 3000, stdin);
 		if (S == T) return EOF;
 	}
 	return *S++;
 }
 void read(int& x) {
-	static char c;
-	x = 0;
-	for (c = get(); c < '0' || c > '9'; c = get()) {
-		if (c == EOF) return; // 입력 종료 시 예외 처리
-	}
-	for (; c >= '0' && c <= '9'; c = get()) {
-		x = (x << 3) + (x << 1) + (c - '0');
-	}
+	static char c; x = 0;
+	for (c = get(); c < '0'; c = get());
+	for (; c >= '0'; c = get()) x = x * 10 + c - '0';
 }
 
 void dfs(int node, int parent, vector<vector<int>>& adj, vector<int>& arr, vector<vector<int>>& dp) {
