@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const int BUF_SIZE = 1 << 20;
+const int BUF_SIZE = 30000;
 char output_buffer[BUF_SIZE];
 char* out_ptr = output_buffer;
 
