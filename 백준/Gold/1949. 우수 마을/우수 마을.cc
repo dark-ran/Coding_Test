@@ -20,7 +20,7 @@ void flush() {
 char get() {
 	static char buf[3000], * S = buf, * T = buf;
 	if (S == T) {
-		T = (S = buf) + fread(buf, 1, 3000, stdin);
+		T = (S = buf) + fread(buf, 1, 1, stdin);
 		if (S == T) return EOF;
 	}
 	return *S++;
