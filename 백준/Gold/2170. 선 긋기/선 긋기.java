@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Comparator;
 public class Main{
     static int read() throws Exception {
         int c, n = 0;
@@ -17,7 +16,9 @@ public class Main{
             arr[i][0]=read();
             arr[i][1]=read();
         }
-        Arrays.sort(arr, Comparator.comparingInt(a -> a[0]));
+        Arrays.sort(arr, (o1, o2) -> {
+            return o1[0]-o2[0];
+        });
         int sum=0,start = arr[0][0],end = arr[0][1];
         for(int i=1;i<N;i++){
             if(arr[i][0]<=end){
