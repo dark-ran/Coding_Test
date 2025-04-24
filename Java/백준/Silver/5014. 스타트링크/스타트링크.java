@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.BitSet;
 
 public class Main {
     public static int read() throws Exception {
@@ -18,40 +19,39 @@ public class Main {
             return;
         }
 
-        if (u == 0 && d == 0) {
+        if ((u == 0 && g > s) || (d == 0 && g < s)) {
             System.out.print("use the stairs");
             return;
         }
 
-        boolean[] vis = new boolean[f + 1]; // 1-based
-        Queue<Pair> q = new LinkedList<>();
+        BitSet vis = new BitSet(f + 1);
+        Queue<Pair> q = new ArrayDeque<>();
         q.offer(new Pair(s, 0));
-        vis[s] = true;
+        vis.set(s);
 
         while (!q.isEmpty()) {
             Pair cur = q.poll();
             int idx = cur.first;
             int num = cur.second;
-
-            if (u != 0) {
+            if (u > 0) {
                 int next = idx + u;
-                if (next <= f && !vis[next]) {
+                if (next <= f && !vis.get(next)) {
                     if (next == g) {
                         System.out.print(num + 1);
                         return;
                     }
-                    vis[next] = true;
+                    vis.set(next);
                     q.offer(new Pair(next, num + 1));
                 }
             }
-            if (d != 0) {
+            if (d > 0) {
                 int next = idx - d;
-                if (next >= 1 && !vis[next]) {
+                if (next >= 1 && !vis.get(next)) {
                     if (next == g) {
                         System.out.print(num + 1);
                         return;
                     }
-                    vis[next] = true;
+                    vis.set(next);
                     q.offer(new Pair(next, num + 1));
                 }
             }
@@ -59,6 +59,7 @@ public class Main {
 
         System.out.print("use the stairs");
     }
+
     static class Pair {
         int first, second;
         Pair(int x, int y) {
