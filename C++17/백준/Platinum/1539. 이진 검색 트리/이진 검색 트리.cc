@@ -1,48 +1,55 @@
 #include <iostream>
 #include <set>
-#include <map>
-
+#include <algorithm>
 using namespace std;
 
+int read() {
+    int n = 0;
+    char c;
+    while ((c = getchar()) < '0');
+    do {
+        n = (n << 3) + (n << 1) + (c - '0');
+    } while ((c = getchar()) >= '0');
+    return n;
+}
+
+int len[1000001] = {0};
+
 int main() {
-    ios::sync_with_stdio(false);
+    ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
-
-    int N;
-    cin >> N;
-
+    
+    int n = read();
+    long long ans = 0;
     set<int> tree;
-    map<int, int> depth;
-
-    long long total = 0;
-
-    for (int i = 0; i < N; ++i) {
-        int num;
-        cin >> num;
-
-        if (tree.empty()) {
-            tree.insert(num);
-            depth[num] = 1;
-            total += 1;
-            continue;
-        }
-
-        auto it = tree.lower_bound(num);
-        int current_depth = 0;
-
-        if (it == tree.begin()) {
-            current_depth = depth[*it] + 1;
-        } else if (it == tree.end()) {
-            current_depth = depth[*prev(it)] + 1;
+    
+    for (int i = 0; i < n; i++) {
+        int num = read();
+        auto higher = tree.upper_bound(num);
+        auto lower = tree.lower_bound(num);
+        
+        if (lower != tree.begin()) {
+            lower--;
         } else {
-            int left_depth = depth[*prev(it)];
-            int right_depth = depth[*it];
-            current_depth = max(left_depth, right_depth) + 1;
+            lower = tree.end();
         }
+        
+        if (higher == tree.end()) {
+            if (lower == tree.end()) {
+                len[num] = 1;
+            } else {
+                len[num] = len[*lower] + 1;
+            }
+        } else {
+            if (lower == tree.end()) {
+                len[num] = len[*higher] + 1;
+            } else {
+                len[num] = max(len[*higher], len[*lower]) + 1;
+            }
+        }
+        ans += len[num];
         tree.insert(num);
-        depth[num] = current_depth;
-        total += current_depth;
     }
-    cout << total;
+    cout << ans;
 }
