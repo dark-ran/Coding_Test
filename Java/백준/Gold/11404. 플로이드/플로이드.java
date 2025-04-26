@@ -8,7 +8,7 @@ public class Main {
         return n;
     }
 
-    static byte[] outputBuffer = new byte[30000000];
+    static byte[] outputBuffer = new byte[240000];
     static int ptr = 0;
 
     static void write(int x) {
@@ -30,7 +30,6 @@ public class Main {
             end--;
         }
     }
-
 
     public static void main(String[] args) throws Exception {
         int INF = 0x3f3f3f3f;
