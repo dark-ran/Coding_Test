@@ -38,19 +38,24 @@ public class Main{
         for(int i=1;i<=n;i++){
             cost[i]=INF;
         }
-        Dijkstra();
+        Dijkstra(n);
         System.out.print(cost[n]);
     }
-    static void Dijkstra(){
-        PriorityQueue<Edge>pq =  new PriorityQueue<>();
-        pq.add(new Edge(1,0));
-        cost[1]=0;
-        while(!pq.isEmpty()){
+    static void Dijkstra(int n) {
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        boolean[] visited = new boolean[n + 1];
+        pq.add(new Edge(1, 0));
+        cost[1] = 0;
+
+        while (!pq.isEmpty()) {
             Edge cur = pq.poll();
-            for(Edge next : arr[cur.end]){
-                if(cost[next.end]>cost[cur.end]+next.data){
-                    cost[next.end]=cost[cur.end]+next.data;
-                    pq.add(next);
+            if (visited[cur.end]) continue;
+            visited[cur.end] = true;
+
+            for (Edge next : arr[cur.end]) {
+                if (!visited[next.end] && cost[next.end] > cost[cur.end] + next.data) {
+                    cost[next.end] = cost[cur.end] + next.data;
+                    pq.add(new Edge(next.end, cost[next.end]));
                 }
             }
         }
