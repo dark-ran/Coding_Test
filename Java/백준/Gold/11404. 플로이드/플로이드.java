@@ -8,7 +8,7 @@ public class Main {
         return n;
     }
 
-    static byte[] outputBuffer = new byte[100000000];
+    static byte[] outputBuffer = new byte[30000000];
     static int ptr = 0;
 
     static void write(int x) {
@@ -44,13 +44,13 @@ public class Main {
 
         for (int i = 0; i < m; i++) {
             int a = read(), b = read(), c = read();
-            cost[a][b] = Math.min(cost[a][b], c);
+            cost[a][b] = cost[a][b]<c?cost[a][b]:c;
         }
 
         for (int k = 1; k <= n; k++) {
             for (int i = 1; i <= n; i++) {
                 for (int j = 1; j <= n; j++) {
-                    cost[i][j] = Math.min(cost[i][j], cost[i][k] + cost[k][j]);
+                    cost[i][j] = cost[i][j]<cost[i][k]+cost[k][j]?cost[i][j]:cost[i][k]+cost[k][j];
                 }
             }
         }
