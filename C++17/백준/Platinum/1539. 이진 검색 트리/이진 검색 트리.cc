@@ -81,6 +81,5 @@ int main() {
         ans += len[num];
         tree.insert(num);
     }
-    write(ans);
-    flush();
+    printf("%lld",ans);
 }
