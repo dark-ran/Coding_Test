@@ -1,31 +1,61 @@
-#include <iostream>
+#include <stdio.h>
 #include <set>
 #include <algorithm>
+
 using namespace std;
 
-int read() {
-    int n = 0;
+const int BUF_SIZE = 2000000;
+char output_buffer[BUF_SIZE];
+char* out_ptr = output_buffer;
+
+inline void write(long long x) {
+    if (x == 0) {
+        *out_ptr++ = '0';
+        return;
+    }
+
+    char buf[12], * p = buf + 11;
+    *p = '\0';
+    while (x) {
+        *--p = '0' + (x % 10);
+        x /= 10;
+    }
+    while (*p) *out_ptr++ = *p++;
+}
+inline void flush() {
+    fwrite(output_buffer, 1, out_ptr - output_buffer, stdout);
+    out_ptr = output_buffer;
+}
+
+char input_buffer[BUF_SIZE];
+char* in_ptr = input_buffer;
+char* end_ptr = input_buffer;
+inline char get() {
+    if (in_ptr == end_ptr) {
+        end_ptr = input_buffer + fread(input_buffer, 1, BUF_SIZE, stdin);
+        in_ptr = input_buffer;
+        if (in_ptr == end_ptr) return EOF;
+    }
+    return *in_ptr++;
+}
+inline void read(int& x) {
+    x = 0;
     char c;
-    while ((c = getchar()) < '0');
-    do {
-        n = (n << 3) + (n << 1) + (c - '0');
-    } while ((c = getchar()) >= '0');
-    return n;
+    while ((c = get()) < '0' && c != EOF);
+    if (c == EOF) return;
+    for (; c >= '0'; c = get()) x = x * 10 + c - '0';
 }
 
 int len[1000001] = {0};
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-    
-    int n = read();
+    int n,num;
+    read(n);
     long long ans = 0;
     set<int> tree;
     
     for (int i = 0; i < n; i++) {
-        int num = read();
+        read(num);
         auto higher = tree.upper_bound(num);
         auto lower = tree.lower_bound(num);
         
@@ -51,5 +81,6 @@ int main() {
         ans += len[num];
         tree.insert(num);
     }
-    cout << ans;
+    write(ans);
+    flush();
 }
