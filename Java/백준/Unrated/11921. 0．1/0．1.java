@@ -1,5 +1,5 @@
 public class Main {
-    static byte[] ibuf = new byte[1 << 20];
+    static byte[] ibuf = new byte[1 << 22];
     static int idx, size;
 
     static byte read() throws Exception {
@@ -20,7 +20,7 @@ public class Main {
     }
     static byte[] outputBuffer = new byte[1<<5];
     static int ptr = 6;
-    
+
     static void write(long x) {
         if (x == 0) {
             outputBuffer[ptr++] = '0';
@@ -44,10 +44,10 @@ public class Main {
     public static void main(String[] args) throws Exception {
         nextInt();
         long sum = 0;
-        for (int i = 0; i < 300000; i++) {
+        for (int i = 0; i < 500000; i++) {
             sum += nextInt();
         }
-        outputBuffer[0]='3';
+        outputBuffer[0]='5';
         outputBuffer[1]='0';
         outputBuffer[2]='0';
         outputBuffer[3]='0';
