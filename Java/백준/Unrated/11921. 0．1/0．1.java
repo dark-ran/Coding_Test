@@ -63,10 +63,10 @@ public class Main {
     public static void main(String[] args) throws Exception {
         nextInt();
         long sum = 0;
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 100000; i++) {
             sum += nextInt();
         }
-        write(10000);
+        write(100000);
         outputBuffer[ptr++]='\n';
         write(sum);
         System.out.write(outputBuffer,0,ptr);
