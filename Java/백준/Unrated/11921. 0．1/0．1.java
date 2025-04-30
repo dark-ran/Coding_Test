@@ -18,7 +18,7 @@ public class Main {
         } while ((c = read()) >= '0');
         return n;
     }
-    static byte[] outputBuffer = new byte[30000000];
+    static byte[] outputBuffer = new byte[1<<5];
     static int ptr = 0;
 
     static void write(int x) {
@@ -63,10 +63,10 @@ public class Main {
     public static void main(String[] args) throws Exception {
         nextInt();
         long sum = 0;
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 200000; i++) {
             sum += nextInt();
         }
-        write(100000);
+        write(200000);
         outputBuffer[ptr++]='\n';
         write(sum);
         System.out.write(outputBuffer,0,ptr);
