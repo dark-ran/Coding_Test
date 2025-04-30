@@ -1,4 +1,3 @@
-
 public class Main {
     static byte[] ibuf = new byte[1 << 20];
     static int idx, size;
@@ -64,10 +63,10 @@ public class Main {
     public static void main(String[] args) throws Exception {
         nextInt();
         long sum = 0;
-        for (int i = 0; i < 5500; i++) {
+        for (int i = 0; i < 10000; i++) {
             sum += nextInt();
         }
-        write(5500);
+        write(10000);
         outputBuffer[ptr++]='\n';
         write(sum);
         System.out.write(outputBuffer,0,ptr);
