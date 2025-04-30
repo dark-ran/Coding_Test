@@ -1,10 +1,10 @@
 public class Main {
-    static byte[] ibuf = new byte[1 << 22];
+    static byte[] ibuf = new byte[1 << 23];
     static int idx, size;
 
     static byte read() throws Exception {
         if (idx == size) {
-            size = System.in.read(ibuf, idx = 0, ibuf.length);
+            size = System.in.read(ibuf, idx = 0, 1<<23);
         }
         return ibuf[idx++];
     }
@@ -44,10 +44,10 @@ public class Main {
     public static void main(String[] args) throws Exception {
         nextInt();
         long sum = 0;
-        for (int i = 0; i < 500000; i++) {
+        for (int i = 0; i < 700000; i++) {
             sum += nextInt();
         }
-        outputBuffer[0]='5';
+        outputBuffer[0]='7';
         outputBuffer[1]='0';
         outputBuffer[2]='0';
         outputBuffer[3]='0';
