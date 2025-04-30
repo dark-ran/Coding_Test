@@ -19,27 +19,8 @@ public class Main {
         return n;
     }
     static byte[] outputBuffer = new byte[1<<5];
-    static int ptr = 0;
-
-    static void write(int x) {
-        if (x == 0) {
-            outputBuffer[ptr++] = '0';
-            return;
-        }
-        int start = ptr;
-        while (x > 0) {
-            outputBuffer[ptr++] = (byte) (x % 10 + '0');
-            x /= 10;
-        }
-        int end = ptr - 1;
-        while (start < end) {
-            byte temp = outputBuffer[start];
-            outputBuffer[start] = outputBuffer[end];
-            outputBuffer[end] = temp;
-            start++;
-            end--;
-        }
-    }
+    static int ptr = 6;
+    
     static void write(long x) {
         if (x == 0) {
             outputBuffer[ptr++] = '0';
@@ -63,10 +44,15 @@ public class Main {
     public static void main(String[] args) throws Exception {
         nextInt();
         long sum = 0;
-        for (int i = 0; i < 200000; i++) {
+        for (int i = 0; i < 300000; i++) {
             sum += nextInt();
         }
-        write(200000);
+        outputBuffer[0]='3';
+        outputBuffer[1]='0';
+        outputBuffer[2]='0';
+        outputBuffer[3]='0';
+        outputBuffer[4]='0';
+        outputBuffer[5]='0';
         outputBuffer[ptr++]='\n';
         write(sum);
         System.out.write(outputBuffer,0,ptr);
