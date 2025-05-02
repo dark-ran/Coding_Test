@@ -1,7 +1,6 @@
 public class Main {
     static int isize, iidx;
     static byte[] ibuf = new byte[1 << 21];
-
     static byte readByte() throws Exception {
         if (isize == iidx) {
             isize = System.in.read(ibuf, 0, 1 << 21);
@@ -33,57 +32,59 @@ public class Main {
         int n = nextInt(), k = nextInt();
         byte[] arr = new byte[k];
         int sum = 0;
-        Trie prie = new Trie();
-        Trie suff = new Trie();
+        Trie trieForward = new Trie();
+        Trie trieReverse = new Trie();
 
         for (int i = 0; i < n; i++) {
             nextStr(arr, k);
-            sum += prie.insert(arr);
-
+            sum += trieForward.insert(arr);
             nextStr(arr, k);
             reverseArray(arr);
-            sum += suff.insert(arr);
+            sum += trieReverse.insert(arr);
         }
         System.out.print(sum);
     }
 
     static void reverseArray(byte[] arr) {
-        int s = 0, e = arr.length - 1;
-        while (s < e) {
-            byte temp = arr[s];
-            arr[s] = arr[e];
-            arr[e] = temp;
-            s++;
-            e--;
+        int left = 0, right = arr.length - 1;
+        while (left < right) {
+            byte temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+            left++;
+            right--;
         }
     }
 }
 
 class Trie {
     byte[] keys = new byte[4];
-    Trie[] children = new Trie[4];
+    Trie[] children = null;
     int size = 0;
 
     int insert(byte[] arr) {
-        Trie trie = this;
-        int num = 0;
+        Trie current = this;
+        int newNodeCount = 0;
         for (byte c : arr) {
-            int pos = binarySearch(trie, c);
+            int pos = current.findKeyPosition(c);
             if (pos < 0) {
                 pos = -(pos + 1);
-                trie = ensureCapacity(trie, pos, c);
-                num++;
+                current = current.addChild(pos, c);
+                newNodeCount++;
+            } else {
+                current = current.children[pos];
             }
-            trie = trie.children[pos];
         }
-        return num;
+        return newNodeCount;
     }
 
-    private int binarySearch(Trie trie, byte c) {
-        int left = 0, right = trie.size - 1;
+    private int findKeyPosition(byte c) {
+        if (children == null) return -1;
+
+        int left = 0, right = size - 1;
         while (left <= right) {
             int mid = (left + right) >>> 1;
-            byte midVal = trie.keys[mid];
+            byte midVal = keys[mid];
             if (midVal < c) {
                 left = mid + 1;
             } else if (midVal > c) {
@@ -95,25 +96,34 @@ class Trie {
         return -(left + 1);
     }
 
-    private Trie ensureCapacity(Trie trie, int pos, byte c) {
-        if (trie.size == trie.keys.length) {
-            byte[] newKeys = new byte[trie.size * 2];
-            Trie[] newChildren = new Trie[trie.size * 2];
-            System.arraycopy(trie.keys, 0, newKeys, 0, pos);
-            System.arraycopy(trie.children, 0, newChildren, 0, pos);
+    private Trie addChild(int pos, byte c) {
+        if (children == null) {
+            children = new Trie[4];
+            keys[0] = c;
+            children[0] = new Trie();
+            size = 1;
+            return children[0];
+        }
+        if (size == keys.length) {
+            int newCapacity = size * 2;
+            byte[] newKeys = new byte[newCapacity];
+            Trie[] newChildren = new Trie[newCapacity];
+            System.arraycopy(keys, 0, newKeys, 0, pos);
+            System.arraycopy(children, 0, newChildren, 0, pos);
             newKeys[pos] = c;
             newChildren[pos] = new Trie();
-            System.arraycopy(trie.keys, pos, newKeys, pos + 1, trie.size - pos);
-            System.arraycopy(trie.children, pos, newChildren, pos + 1, trie.size - pos);
-            trie.keys = newKeys;
-            trie.children = newChildren;
+            System.arraycopy(keys, pos, newKeys, pos + 1, size - pos);
+            System.arraycopy(children, pos, newChildren, pos + 1, size - pos);
+            keys = newKeys;
+            children = newChildren;
         } else {
-            System.arraycopy(trie.keys, pos, trie.keys, pos + 1, trie.size - pos);
-            System.arraycopy(trie.children, pos, trie.children, pos + 1, trie.size - pos);
-            trie.keys[pos] = c;
-            trie.children[pos] = new Trie();
+            System.arraycopy(keys, pos, keys, pos + 1, size - pos);
+            System.arraycopy(children, pos, children, pos + 1, size - pos);
+
+            keys[pos] = c;
+            children[pos] = new Trie();
         }
-        trie.size++;
-        return trie;
+        size++;
+        return children[pos];
     }
 }
