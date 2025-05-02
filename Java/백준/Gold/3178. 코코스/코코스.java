@@ -32,15 +32,15 @@ public class Main {
         int n = nextInt(), k = nextInt();
         byte[] arr = new byte[k];
         int sum = 0;
-        Trie trieForward = new Trie();
-        Trie trieReverse = new Trie();
+        Trie pref = new Trie();
+        Trie suff = new Trie();
 
         for (int i = 0; i < n; i++) {
             nextStr(arr, k);
-            sum += trieForward.insert(arr);
+            sum += pref.insert(arr);
             nextStr(arr, k);
             reverseArray(arr);
-            sum += trieReverse.insert(arr);
+            sum += suff.insert(arr);
         }
         System.out.print(sum);
     }
@@ -62,23 +62,23 @@ class Trie {
     Trie[] children = null;
     int size = 0;
 
-    int insert(byte[] arr) {
+    final int insert(byte[] arr) {
         Trie current = this;
-        int newNodeCount = 0;
+        int cnt = 0;
         for (byte c : arr) {
-            int pos = current.findKeyPosition(c);
+            int pos = current.BinarySearch(c);
             if (pos < 0) {
                 pos = -(pos + 1);
                 current = current.addChild(pos, c);
-                newNodeCount++;
+                cnt++;
             } else {
                 current = current.children[pos];
             }
         }
-        return newNodeCount;
+        return cnt;
     }
 
-    private int findKeyPosition(byte c) {
+    private int BinarySearch(byte c) {
         if (children == null) return -1;
 
         int left = 0, right = size - 1;
