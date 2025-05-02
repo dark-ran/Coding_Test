@@ -39,18 +39,23 @@ public class Main {
         for (int i = 0; i < n; i++) {
             nextStr(arr, k);
             sum += prie.insert(arr);
+
             nextStr(arr, k);
-            int s=0,e=k-1;
-            while(s<e){
-                byte temp=arr[s];
-                arr[s]=arr[e];
-                arr[e]=temp;
-                s++;
-                e--;
-            }
+            reverseArray(arr);
             sum += suff.insert(arr);
         }
         System.out.print(sum);
+    }
+
+    static void reverseArray(byte[] arr) {
+        int s = 0, e = arr.length - 1;
+        while (s < e) {
+            byte temp = arr[s];
+            arr[s] = arr[e];
+            arr[e] = temp;
+            s++;
+            e--;
+        }
     }
 }
 
@@ -63,31 +68,52 @@ class Trie {
         Trie trie = this;
         int num = 0;
         for (byte c : arr) {
-            int pos = -1;
-            for (int i = 0; i < trie.size; i++) {
-                if (trie.keys[i] == c) {
-                    pos = i;
-                    break;
-                }
-            }
-
-            if (pos == -1) {
-                if (trie.size == trie.keys.length) {
-                    byte[] newKeys = new byte[trie.size * 2];
-                    Trie[] newChildren = new Trie[trie.size * 2];
-                    System.arraycopy(trie.keys, 0, newKeys, 0, trie.size);
-                    System.arraycopy(trie.children, 0, newChildren, 0, trie.size);
-                    trie.keys = newKeys;
-                    trie.children = newChildren;
-                }
-                trie.keys[trie.size] = c;
-                trie.children[trie.size] = new Trie();
-                pos = trie.size;
-                trie.size++;
+            int pos = binarySearch(trie, c);
+            if (pos < 0) {
+                pos = -(pos + 1);
+                trie = ensureCapacity(trie, pos, c);
                 num++;
             }
             trie = trie.children[pos];
         }
         return num;
+    }
+
+    private int binarySearch(Trie trie, byte c) {
+        int left = 0, right = trie.size - 1;
+        while (left <= right) {
+            int mid = (left + right) >>> 1;
+            byte midVal = trie.keys[mid];
+            if (midVal < c) {
+                left = mid + 1;
+            } else if (midVal > c) {
+                right = mid - 1;
+            } else {
+                return mid;
+            }
+        }
+        return -(left + 1);
+    }
+
+    private Trie ensureCapacity(Trie trie, int pos, byte c) {
+        if (trie.size == trie.keys.length) {
+            byte[] newKeys = new byte[trie.size * 2];
+            Trie[] newChildren = new Trie[trie.size * 2];
+            System.arraycopy(trie.keys, 0, newKeys, 0, pos);
+            System.arraycopy(trie.children, 0, newChildren, 0, pos);
+            newKeys[pos] = c;
+            newChildren[pos] = new Trie();
+            System.arraycopy(trie.keys, pos, newKeys, pos + 1, trie.size - pos);
+            System.arraycopy(trie.children, pos, newChildren, pos + 1, trie.size - pos);
+            trie.keys = newKeys;
+            trie.children = newChildren;
+        } else {
+            System.arraycopy(trie.keys, pos, trie.keys, pos + 1, trie.size - pos);
+            System.arraycopy(trie.children, pos, trie.children, pos + 1, trie.size - pos);
+            trie.keys[pos] = c;
+            trie.children[pos] = new Trie();
+        }
+        trie.size++;
+        return trie;
     }
 }
