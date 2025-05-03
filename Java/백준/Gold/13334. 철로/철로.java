@@ -20,6 +20,27 @@ public class Main{
         }while((c=read())>='0');
         return flag?-n:n;
     }
+    static int oidx=0;
+    static byte[]obuf=new byte[6];
+    static void write(int x){
+        if(x==0) {
+            obuf[oidx++]='0';
+            return;
+        }
+        while(x>0){
+            obuf[oidx++]=(byte)((x % 10) + '0');
+            x /= 10;
+        }
+        int s=0, e=oidx-1;
+        while(s<e){
+            byte c=obuf[s];
+            obuf[s]=obuf[e];
+            obuf[e]=c;
+            s++;
+            e--;
+        }
+    }
+
     public static void main(String[] args)throws Exception{
         int n=nextInt();
         int[][]arr=new int[2][n];
@@ -51,7 +72,8 @@ public class Main{
             cnt+=cur.end;
             res=res>cnt?res:cnt;
         }
-        System.out.print(res);
+        write(res);
+        System.out.write(obuf,0,oidx);
     }
 }
 
