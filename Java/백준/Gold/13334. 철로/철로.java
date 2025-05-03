@@ -1,8 +1,6 @@
 import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.List;
 import java.util.LinkedList;
-import java.util.Comparator;
 
 public class Main{
     static int isize,iidx;
@@ -17,16 +15,13 @@ public class Main{
     static int nextInt()throws Exception{
         int n=0;
         byte c;
-        boolean flag=true;
         while((c=read())<' ');
-        if(c=='-') {
-            flag = false;
-            c = read();
-        }
+        boolean flag = (c=='-');
+        if(flag) c=read();
         do{
             n=(n<<3)+(n<<1)+(c&15);
         }while((c=read())>='0');
-        return flag?n:-n;
+        return flag?-n:n;
     }
     public static void main(String[] args)throws Exception{
         int n=nextInt();
@@ -41,7 +36,7 @@ public class Main{
             arr.add(new Pair(x,y));
         }
         int d=nextInt();
-        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> {
+        PriorityQueue<Pair> pq = new PriorityQueue<>(n * 2, (a, b) -> {
             if (a.start != b.start) {
                 return a.start - b.start;
             }
