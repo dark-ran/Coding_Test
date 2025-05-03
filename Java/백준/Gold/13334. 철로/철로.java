@@ -1,7 +1,4 @@
 import java.util.PriorityQueue;
-import java.util.List;
-import java.util.LinkedList;
-
 public class Main{
     static int isize,iidx;
     static byte[]ibuf = new byte[1<<21];
@@ -25,7 +22,7 @@ public class Main{
     }
     public static void main(String[] args)throws Exception{
         int n=nextInt();
-        List<Pair>arr = new LinkedList<>();
+        int[][]arr=new int[2][n];
         for(int i=0;i<n;i++){
             int x=nextInt(),y=nextInt();
             if(x>y){
@@ -33,7 +30,8 @@ public class Main{
                 x=y;
                 y=temp;
             }
-            arr.add(new Pair(x,y));
+            arr[0][i]=x;
+            arr[1][i]=y;
         }
         int d=nextInt();
         PriorityQueue<Pair> pq = new PriorityQueue<>(n * 2, (a, b) -> {
@@ -42,10 +40,10 @@ public class Main{
             }
             return b.end - a.end;
         });
-        for(Pair a:arr){
-            if(a.end-a.start>d) continue;
-            pq.add(new Pair(a.end - d,1));
-            pq.add(new Pair(a.start,-1));
+        for(int i=n-1;i>=0;i--){
+            if(arr[1][i]-arr[0][i]>d) continue;
+            pq.add(new Pair(arr[1][i] - d,1));
+            pq.add(new Pair(arr[0][i],-1));
         }
         int res=0,cnt=0;
         while(!pq.isEmpty()){
