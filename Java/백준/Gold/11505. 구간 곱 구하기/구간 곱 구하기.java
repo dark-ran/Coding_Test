@@ -42,7 +42,7 @@ public class Main{
 
     public static void main(String[]args)throws Exception{
         int n=nextInt(),m=nextInt(),k=nextInt();
-        int h = (int)Math.ceil(Math.log(n)/Math.log(2));
+        int h = 32 - Integer.numberOfLeadingZeros(n-1);
         int size = 1<<h;
         long arr[] = new long[size<<1];
         for(int i=0;i<n;i++){
