@@ -1,20 +1,33 @@
 import java.util.Arrays;
 public class Main{
-    static int read() throws Exception {
-        int c, n = 0;
-        boolean negative = false;
-        while ((c = System.in.read()) < '0') // 숫자 또는 '-'가 나올 때까지 건너뜀
-            if (c == '-') negative = true;
-        do n = (n << 3) + (n << 1) + (c & 15); // n = n * 10 + (c - '0')
-        while ((c = System.in.read()) >= '0');
-        return negative ? -n : n;
+    static int isize,iidx;
+    static byte[]ibuf = new byte[1<<22];
+    static byte read()throws Exception{
+        if(isize==iidx) {
+            isize = System.in.read(ibuf, iidx = 0, 1 << 22);
+        }
+        return ibuf[iidx++];
+    }
+    static int nextInt() throws Exception {
+        int n=0;
+        byte c;
+        boolean flag = false;
+        while((c=read())<'-');
+        if(c=='-') {
+            flag = true;
+            c=read();
+        }
+        do{
+            n=(n<<3)+(n<<1)+(c&15);
+        }while((c=read())>='0');
+        return flag ? -n : n;
     }
     public static void main(String[]args)throws Exception{
-        int N = read();
+        int N = nextInt();
         int[][]arr=new int[N][2];
         for(int i=0;i<N;i++){
-            arr[i][0]=read();
-            arr[i][1]=read();
+            arr[i][0]=nextInt();
+            arr[i][1]=nextInt();
         }
         Arrays.sort(arr, (o1, o2) -> {
             return o1[0]-o2[0];
