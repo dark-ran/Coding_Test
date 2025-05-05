@@ -17,13 +17,6 @@ public class Main{
         }
         return n;
     }
-    static Three input()throws Exception{
-        int a=nextInt();
-        int b=nextInt();
-        int c=nextInt();
-        return new Three(a,b,c);
-    }
-
     static int oidx = 0;
     static byte[]obuf = new byte[1<<17];
     static void write(long x){
@@ -49,24 +42,24 @@ public class Main{
     }
 
     public static void main(String[]args)throws Exception{
-        Three a = input();
-        int h = (int)Math.ceil(Math.log(a.x)/Math.log(2));
+        int n=nextInt(),m=nextInt(),k=nextInt();
+        int h = (int)Math.ceil(Math.log(n)/Math.log(2));
         int size = 1<<h;
         long arr[] = new long[size<<1];
-        for(int i=0;i<a.x;i++){
+        for(int i=0;i<n;i++){
             arr[size+i]=nextInt();
         }
-        for(int i=a.x;i<size;i++){
+        for(int i=n;i<size;i++){
             arr[size+i]=1;
         }
         for(int i=size - 1;i>0;i--){
             arr[i] = arr[i<<1] * arr[(i<<1)+1] % MOD;
         }
-        for(int i=a.y+a.z;i>0;i--){
-            Three b = input();
-            if(b.x == 1){
-                int idx = size + b.y - 1;
-                arr[idx] = b.z;
+        for(int i=m+k;i>0;i--){
+            int a=nextInt(),b=nextInt(),c=nextInt();
+            if(a == 1){
+                int idx = size + b - 1;
+                arr[idx] = c;
                 idx>>=1;
                 while(idx>0){
                     arr[idx] = arr[idx<<1]*arr[(idx<<1)+1] % MOD;
@@ -75,7 +68,7 @@ public class Main{
             }
             else{
                 long sum = 1;
-                int l = size + b.y - 1, r = size + b.z - 1;
+                int l = size + b - 1, r = size + c - 1;
                 while(l<=r){
                     if((l&1)!=0)
                         sum = (sum * arr[l++]) % MOD;
@@ -88,13 +81,5 @@ public class Main{
             }
         }
         System.out.write(obuf,0,oidx);
-    }
-}
-class Three{
-    int x,y,z;
-    Three(int i,int j,int k){
-        this.x=i;
-        this.y=j;
-        this.z=k;
     }
 }
