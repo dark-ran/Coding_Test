@@ -1,10 +1,10 @@
 import java.util.Arrays;
 public class Main{
     static int isize,iidx;
-    static byte[]ibuf = new byte[1<<22];
+    static byte[]ibuf = new byte[1<<16];
     static byte read()throws Exception{
         if(isize==iidx) {
-            isize = System.in.read(ibuf, iidx = 0, 1 << 22);
+            isize = System.in.read(ibuf, iidx = 0, 1 << 16);
         }
         return ibuf[iidx++];
     }
