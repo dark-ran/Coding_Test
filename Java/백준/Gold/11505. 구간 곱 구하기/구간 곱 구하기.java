@@ -1,11 +1,10 @@
 public class Main{
-    static int MOD = 1000000007;
+    final static int MOD = 1000000007;
     static int iidx,isize;
-    static byte[]ibuf = new byte[1<<37];
+    static byte[]ibuf = new byte[1<<23];
     static byte read()throws Exception{
         if(isize==iidx){
-            isize = System.in.read(ibuf,0,1<<37);
-            iidx=0;
+            isize = System.in.read(ibuf,iidx = 0,1<<23);
         }
         return ibuf[iidx++];
     }
@@ -53,17 +52,18 @@ public class Main{
             arr[size+i]=1;
         }
         for(int i=size - 1;i>0;i--){
-            arr[i] = arr[i<<1] * arr[(i<<1)+1] % MOD;
+            arr[i] = arr[i<<1] * arr[i<<1|1] % MOD;
         }
         for(int i=m+k;i>0;i--){
             int a=nextInt(),b=nextInt(),c=nextInt();
             if(a == 1){
                 int idx = size + b - 1;
                 arr[idx] = c;
-                idx>>=1;
-                while(idx>0){
-                    arr[idx] = arr[idx<<1]*arr[(idx<<1)+1] % MOD;
-                    idx>>=1;
+                while((idx>>>=1)>0){
+                    long val = arr[idx<<1]*arr[idx<<1|1] % MOD;
+                    if(val == arr[idx]) break;
+                    arr[idx] = val;
+
                 }
             }
             else{
@@ -74,8 +74,8 @@ public class Main{
                         sum = (sum * arr[l++]) % MOD;
                     if((r&1)==0)
                         sum = (sum * arr[r--]) % MOD;
-                    l>>=1;
-                    r>>=1;
+                    l>>>=1;
+                    r>>>=1;
                 }
                 write(sum);
             }
