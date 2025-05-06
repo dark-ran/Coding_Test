@@ -18,15 +18,17 @@ public class Main{
     static byte[]obuf = new byte[13];
     static void func(long n){
         long res = n;
-        for(long i = 2;i*i<=n;i++){
-            if(n%i==0){
-                while (n % i == 0) {
-                    n/=i;
-                }
-                res -= res/i;
+        if (n % 2 == 0) {
+            res -= res / 2;
+            while (n % 2 == 0) n /= 2;
+        }
+        for (long i = 3; i * i <= n; i += 2) {
+            if (n % i == 0) {
+                res -= res / i;
+                while (n % i == 0) n /= i;
             }
         }
-        if(n>1) res-= res/n;
+        if (n > 1) res -= res / n;
         while(res>0){
             obuf[oidx++]=(byte)(res%10+'0');
             res/=10;
