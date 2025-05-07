@@ -57,23 +57,19 @@ public class Main{
             x=y;
             y=temp;
         }
-        if(depth[x]!=depth[y]){
-            for(int i=h;i>=0;i--) {
-                if (depth[par[x][i]] >= depth[y])
-                    x = par[x][i];
+        for(int i=h;i>=0;i--){
+            if(depth[x]-(1<<i) >= depth[y]){
+                x = par[x][i];
             }
         }
-        int res = x;
-        if(x!=y){
-            for(int i=h;i>=0;i--){
-                if(par[x][i]!=par[y][i]){
-                    x=par[x][i];
-                    y=par[y][i];
-                }
-                else res=par[x][i];
+        if(x==y) return x;
+        for(int i=h;i>=0;i--){
+            if(par[x][i]!=par[y][i]){
+                x=par[x][i];
+                y=par[y][i];
             }
         }
-        return res;
+        return par[x][0];
     }
     public static void main(String[] args)throws Exception{
         int n = nextInt();
