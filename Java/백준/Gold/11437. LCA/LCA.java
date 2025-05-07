@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 public class Main{
-    static int ISIZE = 1<<20;
+    static final int ISIZE = 1<<20;
     static int isize,iidx;
     static byte[]ibuf = new byte[ISIZE];
     static byte read()throws Exception{
