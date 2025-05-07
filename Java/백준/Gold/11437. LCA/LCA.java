@@ -57,8 +57,9 @@ public class Main{
             x=y;
             y=temp;
         }
+        int diff = depth[x] - depth[y];
         for(int i=h;i>=0;i--){
-            if(depth[x]-(1<<i) >= depth[y]){
+            if((diff&(1<<i))!=0){
                 x = par[x][i];
             }
         }
