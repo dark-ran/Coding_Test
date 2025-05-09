@@ -1,11 +1,12 @@
 import java.util.*;
 
 public class Main {
+    static int ISIZE = 1<<23;
     static int iidx, isize;
-    static byte[] ibuf = new byte[1 << 23];
+    static final byte[] ibuf = new byte[ISIZE];
     static byte read() throws Exception {
         if (iidx == isize)
-            isize = System.in.read(ibuf, iidx = 0, 1 << 23);
+            isize = System.in.read(ibuf, iidx = 0, ISIZE);
         return ibuf[iidx++];
     }
     static int nextInt() throws Exception {
@@ -17,8 +18,9 @@ public class Main {
         return n;
     }
 
+    static final int OSIZE = 1<<17;
     static int oidx = 0;
-    static byte[] obuf = new byte[1 << 17];
+    static final byte[] obuf = new byte[OSIZE];
     static void write(long x) {
         if (x == 0) {
             obuf[oidx++] = '0';
