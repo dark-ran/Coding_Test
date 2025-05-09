@@ -39,10 +39,10 @@ public class Main{
 
     public static void main(String[] args)throws Exception{
         int n=nextInt();
-        Map<Integer,Integer>arr = new HashMap<>();
-        for(int i=0;i<n;i++) arr.put(nextInt(),i);
+        int[]arr = new int[1000001];
+        for(int i=0;i<n;i++) arr[nextInt()]=i;
         int[]res = new int[n];
-        for(int i=0;i<n;i++) res[i]=arr.get(nextInt());
+        for(int i=0;i<n;i++) res[i]=arr[nextInt()];
         int[]tree = new int[n+1];
         long sum = 0;
         for(int i=n-1;i>=0;i--){
