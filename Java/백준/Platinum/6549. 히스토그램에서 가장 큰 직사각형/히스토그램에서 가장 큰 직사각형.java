@@ -52,20 +52,21 @@ public class Main {
             }
 
             long maxArea = 0;
-            Deque<Integer> stack = new ArrayDeque<>();
+            int[]stack = new int[100000];
+            int stackptr = -1;
 
             for (int i = 0; i < n; i++) {
-                while (!stack.isEmpty() && heights[stack.peek()] > heights[i]) {
-                    int height = heights[stack.pop()];
-                    int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                while (stackptr>=0 && heights[stack[stackptr]] > heights[i]) {
+                    int height = heights[stack[stackptr--]];
+                    int width = stackptr < 0 ? i : i - stack[stackptr] - 1;
                     maxArea = Math.max(maxArea, (long) height * width);
                 }
-                stack.push(i);
+                stack[++stackptr] = i;
             }
 
-            while (!stack.isEmpty()) {
-                int height = heights[stack.pop()];
-                int width = stack.isEmpty() ? n : n - stack.peek() - 1;
+            while (stackptr>=0) {
+                int height = heights[stack[stackptr--]];
+                int width = stackptr<0 ? n : n - stack[stackptr] - 1;
                 maxArea = Math.max(maxArea, (long) height * width);
             }
 
