@@ -40,27 +40,17 @@ public class Main{
     public static void main(String[] args)throws Exception{
         int n=nextInt();
         Map<Integer,Integer>arr = new HashMap<>();
-        int h = (int)Math.ceil(Math.log(n)/Math.log(2));
-        int size = 1<<h;
-        int[]tree = new int[size<<1];
-        int[]res = new int[n];
         for(int i=0;i<n;i++) arr.put(nextInt(),i);
+        int[]res = new int[n];
         for(int i=0;i<n;i++) res[i]=arr.get(nextInt());
+        int[]tree = new int[n+1];
         long sum = 0;
-        for(int i=0;i<n;i++){
-            int num = size + res[i];
-            tree[num]++;
-            for(num>>=1;num>0;num>>=1){
-                tree[num]=tree[num<<1]+tree[num<<1|1];
+        for(int i=n-1;i>=0;i--){
+            for(int j=res[i];j>0;j-=(j&-j)){
+                sum+=tree[j];
             }
-            int s=size + res[i] + 1,e=size+n-1;
-            while(s<=e){
-                if((s&1)!=0)
-                    sum+=tree[s++];
-                if((e&1)==0)
-                    sum+=tree[e--];
-                s>>=1;
-                e>>=1;
+            for(int j=res[i]+1;j<=n;j+=(j&-j)){
+                tree[j]++;
             }
         }
         write(sum);
