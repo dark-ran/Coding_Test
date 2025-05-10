@@ -1,6 +1,6 @@
 import java.util.*;
 public class Main {
-    static int ISIZE = 1<<21;
+    static int ISIZE = 1<<16;
     static int iidx, isize;
     static final byte[] ibuf = new byte[ISIZE];
     static byte read() throws Exception {
@@ -22,7 +22,7 @@ public class Main {
         return flag?-n:n;
     }
 
-    static final int OSIZE = 1<<20;
+    static final int OSIZE = 1<<16;
     static int oidx = 0;
     static final byte[] obuf = new byte[OSIZE];
     static void write(int x) {
