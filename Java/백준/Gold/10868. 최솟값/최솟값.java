@@ -1,17 +1,17 @@
 import java.util.*;
 
 public class Main {
-    private static final int ISIZE = 1 << 21;
-    private static byte[] ibuf = new byte[ISIZE];
-    private static int iidx, isize;
+    static final int ISIZE = 1 << 21;
+    static byte[] ibuf = new byte[ISIZE];
+    static int iidx, isize;
 
-    private static final int OSIZE = 1 << 21;
-    private static byte[] obuf = new byte[OSIZE];
-    private static int oidx = 0;
+    static final int OSIZE = 1 << 21;
+    static byte[] obuf = new byte[OSIZE];
+    static int oidx = 0;
 
-    private static final int INF = Integer.MAX_VALUE;
+    static final int INF = Integer.MAX_VALUE;
 
-    private static byte read() throws Exception {
+    static byte read() throws Exception {
         if (iidx == isize) {
             isize = System.in.read(ibuf, iidx = 0, ISIZE);
             if (isize == -1) ibuf[0] = -1;
@@ -19,7 +19,7 @@ public class Main {
         return ibuf[iidx++];
     }
 
-    private static int nextInt() throws Exception {
+    static int nextInt() throws Exception {
         int n = 0;
         byte b;
         while ((b = read()) <= ' ') {
@@ -31,7 +31,7 @@ public class Main {
         return n;
     }
 
-    private static void write(int x){
+    static void write(int x){
         if (x == 0) {
             obuf[oidx++] = '0';
         } else {
@@ -52,7 +52,7 @@ public class Main {
         obuf[oidx++] = '\n';
     }
 
-    private static void flush(){
+    static void flush(){
         System.out.write(obuf, 0, oidx);
     }
 
@@ -60,7 +60,7 @@ public class Main {
         int n = nextInt();
         int m = nextInt();
         int[] arr = new int[n];
-        
+
         for (int i = 0; i < n; i++) {
             arr[i] = nextInt();
         }
@@ -80,7 +80,7 @@ public class Main {
                 if (val < tree2[j]) tree2[j] = val;
             }
         }
-        
+
         while (m-- > 0) {
             int l = nextInt();
             int r = nextInt();
@@ -93,7 +93,7 @@ public class Main {
                 idx += idx & -idx;
             }
             if (arr[idx - 1] < min) min = arr[idx - 1];
-            
+
             idx = r;
             while (idx - (idx & -idx) >= l) {
                 if (tree1[idx] < min) min = tree1[idx];
