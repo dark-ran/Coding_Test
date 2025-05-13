@@ -39,7 +39,7 @@ public class Main{
 
     static final int MAX = 1000001;
     static int h,n;
-    static ArrayList<Pair>[]arr;
+    static ArrayList<int[]>[]arr;
     static int[][]par;
     static int[]depth;
     static int[][]minroad;
@@ -49,9 +49,9 @@ public class Main{
         depth[node]=depth[parent]+1;
         par[node][0]=parent;
         minroad[node][0] =  maxroad[node][0] = len;
-        for(Pair i : arr[node]){
-            if(i.x!=parent)
-                parent(i.x,node,i.y);
+        for(int[] i : arr[node]){
+            if(i[0]!=parent)
+                parent(i[0],node,i[1]);
         }
     }
 
@@ -116,15 +116,12 @@ public class Main{
 
         for(int i=0;i<=n;i++) {
             arr[i] = new ArrayList<>();
-            for (int j = 0; j < h; j++) {
-                minroad[i][j] = MAX;
-            }
         }
 
         for(int i=1;i<n;i++){
             int a=nextInt(),b=nextInt(),c=nextInt();
-            arr[a].add(new Pair(b,c));
-            arr[b].add(new Pair(a,c));
+            arr[a].add(new int[]{b,c});
+            arr[b].add(new int[]{a,c});
         }
 
 
