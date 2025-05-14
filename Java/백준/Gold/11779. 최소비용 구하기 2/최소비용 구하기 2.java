@@ -86,6 +86,7 @@ public class Main{
             obuf[oidx++]=' ';
         }
         System.out.write(obuf,0,oidx);
+        System.out.flush();
     }
 }
 
