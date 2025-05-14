@@ -42,19 +42,18 @@ public class Main{
         int n = nextInt(),m=nextInt();
         int[]arr = new int[n];
         ArrayList<Pair>[]li = new ArrayList[n];
-        ArrayList<Pair>[]backli = new ArrayList[n];
+        int[]prev = new int[n];
         boolean[]vis = new boolean[n];
         PriorityQueue<Pair>pq = new PriorityQueue<>(2 * n);
         for(int i=0;i<n;i++) {
             arr[i]=MAX;
             li[i]=new ArrayList<>();
-            backli[i]=new ArrayList<>();
+            prev[i]=-1;
         }
 
         for(int i=0;i<m;i++){
             int x = nextInt()-1,y=nextInt()-1,z=nextInt();
             li[x].add(new Pair(y,z));
-            backli[y].add(new Pair(x,z));
         }
 
         int start = nextInt()-1,end = nextInt()-1;
@@ -68,28 +67,22 @@ public class Main{
             for(Pair i:li[cur.y]){
                 if(vis[i.x]||cur.x+i.y>=arr[i.x])continue;
                 arr[i.x]=cur.x+i.y;
+                prev[i.x]=cur.y;
                 pq.add(new Pair(arr[i.x],i.x));
             }
         }
         write(arr[end]);
         obuf[oidx++]='\n';
-        List<Integer>back = new ArrayList<>();
+        List<Integer>path = new ArrayList<>();
         int cur = end;
-        back.add(cur);
-        while(true){
-            for(Pair i : backli[cur]){
-                if(arr[cur]-i.y==arr[i.x]){
-                    cur = i.x;
-                    back.add(i.x);
-                    break;
-                }
-            }
-            if(cur==start) break;
+        while(cur!=-1){
+            path.add(cur);
+            cur=prev[cur];
         }
-        write(back.size());
+        write(path.size());
         obuf[oidx++]='\n';
-        for(int i = back.size()-1;i>=0;i--){
-            write(back.get(i)+1);
+        for(int i = path.size()-1;i>=0;i--){
+            write(path.get(i)+1);
             obuf[oidx++]=' ';
         }
         System.out.write(obuf,0,oidx);
