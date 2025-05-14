@@ -64,6 +64,7 @@ public class Main{
             Pair cur = pq.poll();
             if(vis[cur.y]) continue;
             vis[cur.y]=true;
+            if(cur.y==end) break;
             for(Pair i:li[cur.y]){
                 if(vis[i.x]||cur.x+i.y>=arr[i.x])continue;
                 arr[i.x]=cur.x+i.y;
