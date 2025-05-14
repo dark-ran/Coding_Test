@@ -41,8 +41,8 @@ public class Main{
     public static void main(String[] args)throws Exception {
         int n = nextInt(),m=nextInt();
         int[]arr = new int[n];
-        ArrayList<int[]>[]li = new ArrayList[n];
-        ArrayList<int[]>[]backli = new ArrayList[n];
+        ArrayList<Pair>[]li = new ArrayList[n];
+        ArrayList<Pair>[]backli = new ArrayList[n];
         boolean[]vis = new boolean[n];
         PriorityQueue<Pair>pq = new PriorityQueue<>(n);
         for(int i=0;i<n;i++) {
@@ -53,8 +53,8 @@ public class Main{
 
         for(int i=0;i<m;i++){
             int x = nextInt()-1,y=nextInt()-1,z=nextInt();
-            li[x].add(new int[]{y,z});
-            backli[y].add(new int[]{x,z});
+            li[x].add(new Pair(y,z));
+            backli[y].add(new Pair(x,z));
         }
 
         int start = nextInt()-1,end = nextInt()-1;
@@ -64,10 +64,10 @@ public class Main{
             Pair cur = pq.poll();
             if(vis[cur.y]) continue;
             vis[cur.y]=true;
-            for(int[]i:li[cur.y]){
-                if(vis[i[0]]||cur.x+i[1]>=arr[i[0]])continue;
-                arr[i[0]]=cur.x+i[1];
-                pq.add(new Pair(arr[i[0]],i[0]));
+            for(Pair i:li[cur.y]){
+                if(vis[i.x]||cur.x+i.y>=arr[i.x])continue;
+                arr[i.x]=cur.x+i.y;
+                pq.add(new Pair(arr[i.x],i.x));
             }
         }
         write(arr[end]);
@@ -76,10 +76,10 @@ public class Main{
         int cur = end;
         back.add(cur);
         while(true){
-            for(int[]i : backli[cur]){
-                if(arr[cur]-i[1]==arr[i[0]]){
-                    cur = i[0];
-                    back.add(i[0]);
+            for(Pair i : backli[cur]){
+                if(arr[cur]-i.y==arr[i.x]){
+                    cur = i.x;
+                    back.add(i.x);
                     break;
                 }
             }
