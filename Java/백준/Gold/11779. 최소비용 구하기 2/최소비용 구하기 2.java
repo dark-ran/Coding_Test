@@ -72,7 +72,7 @@ public class Main{
         }
         write(arr[end]);
         obuf[oidx++]='\n';
-        ArrayList<Integer>back = new ArrayList<>();
+        List<Integer>back = new ArrayList<>();
         int cur = end;
         back.add(cur);
         while(true){
