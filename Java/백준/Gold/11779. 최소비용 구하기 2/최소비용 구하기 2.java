@@ -44,7 +44,7 @@ public class Main{
         ArrayList<int[]>[]li = new ArrayList[n];
         ArrayList<int[]>[]backli = new ArrayList[n];
         boolean[]vis = new boolean[n];
-        PriorityQueue<Pair>pq = new PriorityQueue<>();
+        PriorityQueue<Pair>pq = new PriorityQueue<>(n);
         for(int i=0;i<n;i++) {
             arr[i]=MAX;
             li[i]=new ArrayList<>();
