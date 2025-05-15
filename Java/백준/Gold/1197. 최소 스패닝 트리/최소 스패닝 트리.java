@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static final int ISIZE = 1 << 21;
+    static final int ISIZE = 1 << 23;
     static byte[] ibuf = new byte[ISIZE];
     static int iidx, isize;
 
@@ -55,27 +55,35 @@ public class Main {
     }
 
 
+    static int[]parent;
+    static int find(int x){
+        if(parent[x]==x) return x;
+        return parent[x]=find(parent[x]);
+    }
+
+    static boolean union(int a,int b){
+        a=find(a);
+        b=find(b);
+        if(a==b) return false;
+        parent[b]=a;
+        return true;
+    }
+
     public static void main(String[] args) throws IOException {
         int v = nextInt(),e=nextInt();
-        long sum = 0;
-        boolean[]vis = new boolean[v];
-        PriorityQueue<Pair>q = new PriorityQueue<>(e);
-        ArrayList<Pair>[]li = new ArrayList[v];
-        for(int i=0;i<v;i++) li[i]=new ArrayList<>();
+        parent=new int[v];
+        for(int i=0;i<v;i++) parent[i]=i;
+
+        PriorityQueue<Trio>pq = new PriorityQueue<>(e);
         while(e-->0){
             int a = nextInt()-1,b=nextInt()-1,c=nextInt();
-            li[a].add(new Pair(b,c));
-            li[b].add(new Pair(a,c));
+            pq.add(new Trio(a,b,c));
         }
-        q.add(new Pair(0,0));
-        while(!q.isEmpty()){
-            Pair cur = q.poll();
-            if(vis[cur.x]) continue;
-            vis[cur.x]=true;
-            sum+=cur.y;
-            for(Pair a : li[cur.x]){
-                if(vis[a.x]) continue;
-                q.add(a);
+        long sum = 0;
+        while(!pq.isEmpty()){
+            Trio cur = pq.poll();
+            if(union(cur.x,cur.y)){
+                sum+=cur.z;
             }
         }
         write(sum);
@@ -84,13 +92,14 @@ public class Main {
     }
 }
 
-class Pair implements Comparable<Pair>{
-    int x,y;
-    Pair(int a,int b){
+class Trio implements Comparable<Trio>{
+    int x,y,z;
+    Trio(int a,int b,int c){
         x=a;
         y=b;
+        z=c;
     }
-    public int compareTo(Pair o){
-        return this.y-o.y;
+    public int compareTo(Trio o){
+        return this.z-o.z;
     }
 }
