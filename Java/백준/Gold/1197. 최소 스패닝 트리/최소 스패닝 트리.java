@@ -1,19 +1,18 @@
 import java.util.*;
-import java.io.*;
 
 public class Main {
-    static final int ISIZE = 1 << 23;
+    static final int ISIZE = 1 << 22;
     static byte[] ibuf = new byte[ISIZE];
     static int iidx, isize;
 
-    static byte read() throws IOException {
+    static byte read() throws Exception {
         if (iidx == isize) {
             isize = System.in.read(ibuf, iidx = 0, ISIZE);
         }
         return ibuf[iidx++];
     }
 
-    static int nextInt() throws IOException {
+    static int nextInt() throws Exception {
         int n = 0;
         byte b;
         boolean flag = false;
@@ -69,7 +68,7 @@ public class Main {
         return true;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         int v = nextInt(),e=nextInt();
         parent=new int[v];
         for(int i=0;i<v;i++) parent[i]=i;
