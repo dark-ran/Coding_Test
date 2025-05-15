@@ -25,7 +25,7 @@ public class Main {
     static byte[] obuf = new byte[OSIZE];
     static int oidx;
 
-    static void write(long n) {
+    static void write(int n) {
         int s = oidx;
         while (n > 0) {
             obuf[oidx++] = (byte)((n % 10) + '0');
@@ -52,14 +52,17 @@ public class Main {
             return;
         }
         boolean[]vis = new boolean[n+1];
-        for(int i=2;i*i<=n;i++)
-            for(int j=2 * i;j<=n;j+=i)
-                vis[j]=true;
+        for(int i=4;i<=n;i+=2) vis[i]=true;
+        int sqrtN = (int)Math.ceil(Math.sqrt(n));
+        for(int i=3;i<=sqrtN;i+=2)
+            if(!vis[i])
+                for(int j = i * i;j<=n;j += i * 2)
+                    vis[j]=true;
 
         if(n%2==0){
             write(2);
             write(2);
-            for(int i=2;i<n-4;i++){
+            for(int i=2;i<n;i++){
                 if(!vis[i]&&!vis[n-4-i]){
                     write(i);
                     write(n-4-i);
@@ -70,7 +73,7 @@ public class Main {
         else{
             write(2);
             write(3);
-            for(int i=2;i<=n-5;i++){
+            for(int i=2;i<n;i++){
                 if(!vis[i]&&!vis[n-i-5]) {
                     write(i);
                     write(n - i - 5);
