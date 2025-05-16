@@ -47,22 +47,20 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         long min = nextInt(), max = nextInt();
-        int diff = Math.toIntExact(max-min) + 1;
-        boolean[]vis = new boolean[diff];
+        int diff = (int)(max-min+1);
+        BitSet vis = new BitSet(diff);
 
-        for (long i = 2; i * i <= max; i++) {
+        long maxsqare = (long)Math.sqrt(max);
+        for (long i = 2; i <= maxsqare; i++) {
             long square = i * i;
-            long start = min % square == 0 ? min : min + (square - (min % square));
+            long start = ((min + square - 1)/square) * square;
 
             for (long j = start; j <= max; j += square) {
-                vis[(int)(j - min)] = true;
+                vis.set((int)(j-min));
             }
         }
 
-        int cnt = 0;
-        for (boolean b : vis) {
-            if (!b) cnt++;
-        }
+        int cnt = diff - vis.cardinality();
 
         write(cnt);
         System.out.write(obuf,0,oidx);
