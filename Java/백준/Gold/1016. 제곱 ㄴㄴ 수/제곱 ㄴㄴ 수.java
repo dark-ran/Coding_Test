@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Main {
-    static final int ISIZE = 1 << 10;
+    static final int ISIZE = 1 << 20;
     static byte[] ibuf = new byte[ISIZE];
     static int iidx, isize;
 
