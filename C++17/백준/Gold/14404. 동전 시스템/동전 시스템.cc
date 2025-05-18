@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#define max(a,b) a>b?a:b
 
 using namespace std;
 
@@ -21,12 +22,13 @@ int A, B, X;
 void calc() {
 	int cnt = 0;
 	for (int i = 1; i <= 200; i++) {
+		int high = max(A * B, X * i);
 		bool flag = true;
-		copy(visX, visX + MAX, visY);
-		for (int j =i;j<MAX;j++){
+		copy(visX, visX + high, visY);
+		for (int j = i; j < high; j++) {
 			if (visY[j - i]) visY[j] = true;
 		}
-		for (int j = 0; j < MAX; j++) {
+		for (int j = 0; j < high; j++) {
 			if (visAB[j] && !visY[j]) {
 				flag = false;
 				break;
@@ -48,7 +50,7 @@ int main() {
 	}
 
 
-	for(int i=0;i<MAX;i+=A){
+	for (int i = 0; i < MAX; i += A) {
 		for (int j = i; j < MAX; j += B) {
 			visAB[j] = true;
 		}
@@ -58,5 +60,4 @@ int main() {
 	}
 
 	calc();
-
 }
