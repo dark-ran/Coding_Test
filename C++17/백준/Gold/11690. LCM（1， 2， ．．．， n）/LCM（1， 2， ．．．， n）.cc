@@ -24,9 +24,7 @@ int main() {
 				j *= i;
 			}
 			cnt = (cnt * j) % MOD;
-			if (cnt < 0)cnt += MOD;
 		}
 	}
-	if (cnt < 0)cnt += MOD;
 	cout << cnt;
 }
