@@ -7,7 +7,7 @@ using namespace std;
 int main() {
 	const long MOD = 4294967296;
 	long n;
-	scanf("%lld",&n);
+	scanf("%ld", &n);
 	vector<bool>vis(n + 1);
 	for (int i = 4; i <= n; i += 2)
 		vis[i] = true;
@@ -31,5 +31,5 @@ int main() {
 		}
 	}
 	if (cnt < 0)cnt += MOD;
-    printf("%lld",cnt);
+	printf("%ld", cnt);
 }
