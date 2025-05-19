@@ -1,4 +1,5 @@
 #include<iostream>
+#include<cmath>
 
 using namespace std;
 
@@ -9,9 +10,12 @@ int main() {
 	const long MOD = 4294967296;
 	long n;
 	cin >> n;
-	for (int i = 2; i * i <= n; i++) {
+	for (int i = 4; i <= n; i += 2)
+		vis[i] = true;
+	int sqrt_n = sqrt(n);
+	for (int i = 3; i <= sqrt_n; i += 2) {
 		if (!vis[i]) {
-			for (int j = i * i; j <= n; j += i) {
+			for (int j = i * i; j <= n; j += 2 * i) {
 				vis[j] = true;
 			}
 		}
@@ -24,7 +28,9 @@ int main() {
 				j *= i;
 			}
 			cnt = (cnt * j) % MOD;
+			if (cnt < 0)cnt += MOD;
 		}
 	}
+	if (cnt < 0)cnt += MOD;
 	cout << cnt;
 }
