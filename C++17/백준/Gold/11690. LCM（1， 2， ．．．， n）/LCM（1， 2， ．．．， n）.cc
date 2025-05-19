@@ -1,15 +1,15 @@
 #include<iostream>
+#include<vector>
 #include<cmath>
 
 using namespace std;
-
-bool vis[100000001];
 
 int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 	const long MOD = 4294967296;
 	long n;
 	cin >> n;
+	vector<bool>vis(n + 1);
 	for (int i = 4; i <= n; i += 2)
 		vis[i] = true;
 	int sqrt_n = sqrt(n);
