@@ -20,16 +20,19 @@ int main() {
 		}
 	}
 	long cnt = 1;
-	for (int i = 2; i <= n; i++) {
+	long j = 2;
+	while (j * 2 <= n) {
+		j <<= 1;
+	}
+	cnt = cnt * j;
+	for (int i = 3; i <= n; i+=2) {
 		if (!vis[i]) {
-			long j = i;
+			j = i;
 			while (j * i <= n) {
 				j *= i;
 			}
 			cnt = (cnt * j) % MOD;
-			if (cnt < 0)cnt += MOD;
 		}
 	}
-	if (cnt < 0)cnt += MOD;
 	printf("%ld", cnt);
 }
