@@ -1,4 +1,4 @@
-#include<iostream>
+#include<stdio.h>
 #include<stack>
 #include<string>
 
@@ -13,40 +13,38 @@ int check(char c) {
 }
 
 int main() {
-	ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
-
-	string s;
-	getline(cin, s);
+	char arr[1000]; 
+	fgets(arr, sizeof(arr), stdin);
 
 	stack<char>st;
 	bool flag = true;
-	for (int i = 0; i < s.length(); i++) {
+	for (int i = 0;arr[i]!='\n'; i++) {
 		int pre = -1;
-		if (s[i] == ' ')continue;
-		int cur= check(s[i]);
+		if (arr[i] == ' ')continue;
+		int cur = check(arr[i]);
 		if (cur == -1) {
-			cout << "error";
+			printf("error");
 			return 0;
 		}
 		if (st.size()) pre = st.top();
 
 		if (cur == 1) {
 			if (pre == 1) {
-				cout << "error";
+				printf("error");
 				return 0;
 			}
 			st.push(cur);
 		}
 		else if (cur == 2) {
-			if(pre!=1){
-				cout << "error";
+			if (pre != 1) {
+				printf("error");
 				return 0;
 			}
 			st.push(cur);
 		}
 		else if (cur == 3) {
 			if (pre == 1) {
-				cout << "error";
+				printf("error");
 				return 0;
 			}
 			st.push(cur);
@@ -64,7 +62,7 @@ int main() {
 						word = false;
 					}
 					else {
-						cout << "error";
+						printf("error");
 						return 0;
 					}
 				}
@@ -80,7 +78,7 @@ int main() {
 				}
 			}
 			if (!close) {
-				cout << "error";
+				printf("error");
 				return 0;
 			}
 			st.push(1);
@@ -98,19 +96,21 @@ int main() {
 				word = false;
 			}
 			else {
-				cout << "error";
+				printf("error");
 				return 0;
 			}
 		}
 		else {
 			if (a == 2) word = true;
 			else if (a == 3) {
-				cout << "error";
+				printf("error");
 				return 0;
 			}
 		}
 	}
 	if (cnt != 2) flag = false;
-	
-	cout << (flag ? "proper" : "improper");
+	if (flag)
+		printf("proper");
+	else
+		printf("improper");
 }
