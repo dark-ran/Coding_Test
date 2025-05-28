@@ -1,5 +1,4 @@
 #include<iostream>
-#include<unordered_map>
 #include<vector>
 
 using namespace std;
@@ -26,8 +25,8 @@ bool check() {
 
 int main() {
     ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+
     cin >> n >> m;
-    int cnt = 0;
 
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
@@ -36,7 +35,7 @@ int main() {
     }
 
     if (n == 1) {
-        cout << (dat[0][0] == 0 ? 2000 : 0) << " ";
+        cout << 0 << " ";
         for (int i = 1; i < m; i++)
             cout << dat[0][i] << " ";
         return 0;
@@ -46,7 +45,7 @@ int main() {
         arr[i] = dat[0][i];
         res[i] = dat[0][i];
     }
-    
+
     for (int i = 1; i < n; i++) {
         vector<int>index;
         for (int j = 0; j < m; j++) {
@@ -57,7 +56,7 @@ int main() {
         if (index.size() == 2) {
             res[index[0]] = dat[i][index[0]];
 
-            if(!check()) {
+            if (!check()) {
                 res[index[0]] = arr[index[0]];
                 res[index[1]] = dat[i][index[1]];
             }
@@ -68,14 +67,14 @@ int main() {
             return 0;
         }
     }
-    
+
     {
         int pos = -1;
-        for (int i = 1; i < n; i++) 
+        for (int i = 1; i < n; i++)
         {
-            for (int j = 0; j < m; j++) 
+            for (int j = 0; j < m; j++)
             {
-                if (arr[j] != dat[i][j]) 
+                if (arr[j] != dat[i][j])
                 {
                     pos = j;
                     break;
@@ -86,7 +85,7 @@ int main() {
         }
         if (pos == -1)
             pos = 0;
-        res[pos] = (res[pos] == 0) ? 2000 : 0;
+        res[pos] = 0;
         for (int i = 0; i < m; i++)
             cout << res[i] << " ";
     }
