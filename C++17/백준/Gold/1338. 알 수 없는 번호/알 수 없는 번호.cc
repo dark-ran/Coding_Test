@@ -1,4 +1,4 @@
-#include<iostream>
+#include<stdio.h>
 #define ll long long
 
 using namespace std;
@@ -14,12 +14,11 @@ ll absl(ll x) {
 }
 
 int main() {
-	ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 	ll a, b, x, y, front, back;
-	cin >> a >> b >> x >> y;
+	scanf("%lld%lld%lld%lld", &a, &b, &x, &y);
 
 	if (y < 0 || y >= absl(x)) {
-		cout << "Unknwon Number";
+		printf("Unknwon Number");
 		return 0;
 	}
 
@@ -35,12 +34,13 @@ int main() {
 	}
 
 	if (k + y > b) {
-		cout << "Unknwon Number";
+		printf("Unknwon Number");
 		return 0;
 	}
 	else if (k + y + x <= b) {
-		cout << "Unknwon Number";
+		printf("Unknwon Number");
 		return 0;
 	}
-	else cout << k + y;
+	else
+		printf("%lld", k + y);
 }
