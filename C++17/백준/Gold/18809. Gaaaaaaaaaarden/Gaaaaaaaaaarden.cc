@@ -1,7 +1,6 @@
 #include<iostream>
 #include<vector>
 #include<queue>
-#include<algorithm>
 
 using namespace std;
 
@@ -9,7 +8,7 @@ int N, M, G, R, ans = 0;
 vector<pair<int, int>> pos;
 vector<vector<int>> arr;
 
-void bfs(vector<pair<int, int>> greens, vector<pair<int, int>> reds) {
+void bfs(vector<pair<int, int>>&greens, vector<pair<int, int>>&reds) {
     vector<vector<int>> time(N, vector<int>(M, -1));
     vector<vector<char>> color(N, vector<char>(M, ' '));
     queue<pair<int, int>> q;
@@ -49,7 +48,7 @@ void bfs(vector<pair<int, int>> greens, vector<pair<int, int>> reds) {
             }
         }
     }
-    ans = max(ans, flowers);
+    ans = ans > flowers ? ans : flowers;
 }
 
 void select(int idx, int g, int r, vector<pair<int, int>>& greens, vector<pair<int, int>>& reds) {
@@ -59,17 +58,13 @@ void select(int idx, int g, int r, vector<pair<int, int>>& greens, vector<pair<i
     }
     if (idx >= pos.size()) return;
 
-    // Not select current position
     select(idx + 1, g, r, greens, reds);
 
-    // Select as green if possible
     if (g > 0) {
         greens.push_back(pos[idx]);
         select(idx + 1, g - 1, r, greens, reds);
         greens.pop_back();
     }
-
-    // Select as red if possible
     if (r > 0) {
         reds.push_back(pos[idx]);
         select(idx + 1, g, r - 1, greens, reds);
@@ -93,5 +88,5 @@ int main() {
 
     vector<pair<int, int>> greens, reds;
     select(0, G, R, greens, reds);
-    cout << ans << '\n';
+    cout << ans;
 }
