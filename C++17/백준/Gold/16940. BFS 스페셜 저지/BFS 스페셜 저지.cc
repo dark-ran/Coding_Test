@@ -4,7 +4,7 @@
 #include<algorithm>
 
 using namespace std;
-const int ISIZE = 1 << 22;
+const int ISIZE = 1 << 21;
 char ibuf[ISIZE];
 char* in_ptr = ibuf;
 char* end_ptr = ibuf;
