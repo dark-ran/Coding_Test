@@ -6,20 +6,26 @@ using namespace std;
 
 int N, M, G, R, ans = 0;
 vector<pair<int, int>> pos;
-vector<vector<int>> arr;
+int arr[50][50];
+int times[50][50];
+char color[50][50];
 
-void bfs(vector<pair<int, int>>&greens, vector<pair<int, int>>&reds) {
-    vector<vector<int>> time(N, vector<int>(M, -1));
-    vector<vector<char>> color(N, vector<char>(M, ' '));
+void bfs(vector<pair<int, int>>& greens, vector<pair<int, int>>& reds) {
+    for (int i = 0;i < N;i++) {
+        for (int j = 0;j < M;j++) {
+            times[i][j] = -1;
+            color[i][j] = ' ';
+        }
+    }
     queue<pair<int, int>> q;
 
     for (auto p : greens) {
-        time[p.first][p.second] = 0;
+        times[p.first][p.second] = 0;
         color[p.first][p.second] = 'G';
         q.push(p);
     }
     for (auto p : reds) {
-        time[p.first][p.second] = 0;
+        times[p.first][p.second] = 0;
         color[p.first][p.second] = 'R';
         q.push(p);
     }
@@ -31,20 +37,20 @@ void bfs(vector<pair<int, int>>&greens, vector<pair<int, int>>&reds) {
     while (!q.empty()) {
         auto cur = q.front(); q.pop();
         int x = cur.first, y = cur.second;
-        if (time[x][y] == -2) continue; // already a flower
+        if (times[x][y] == -2) continue; // already a flower
 
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i], ny = y + dy[i];
             if (nx < 0 || nx >= N || ny < 0 || ny >= M || arr[nx][ny] == 0) continue;
 
-            if (time[nx][ny] == -1) {
-                time[nx][ny] = time[x][y] + 1;
+            if (times[nx][ny] == -1) {
+                times[nx][ny] = times[x][y] + 1;
                 color[nx][ny] = color[x][y];
                 q.push({ nx, ny });
             }
-            else if (time[nx][ny] == time[x][y] + 1 && color[nx][ny] != color[x][y]) {
+            else if (times[nx][ny] == times[x][y] + 1 && color[nx][ny] != color[x][y]) {
                 flowers++;
-                time[nx][ny] = -2; // mark as flower
+                times[nx][ny] = -2; // mark as flower
             }
         }
     }
@@ -75,7 +81,6 @@ void select(int idx, int g, int r, vector<pair<int, int>>& greens, vector<pair<i
 int main() {
     ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
     cin >> N >> M >> G >> R;
-    arr.resize(N, vector<int>(M));
 
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
