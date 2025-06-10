@@ -1,4 +1,4 @@
-#include<iostream>
+#include<stdio.h>
 #include<vector>
 #include<queue>
 #define pii pair<int,int>
@@ -16,15 +16,14 @@ int gcd(int a, int b) {
 }
 
 int main() {
-	ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr);
 	int N;
-	cin >> N;
+	scanf("%d", &N);
 	vector<int>v(N);
 	vector<vector<int>>a(N);
 	vector<int>num(N);
 	priority_queue<pii, vector<pii>, greater<pii>> pq;
 	for (int i = 0;i < N;i++) {
-		cin >> v[i];
+		scanf("%d", &v[i]);
 	}
 	for (int i = 1;i < N;i++) {
 		for (int j = i - 1;j >= 0;j--) {
@@ -40,7 +39,7 @@ int main() {
 	while (!pq.empty()) {
 		auto cur = pq.top();
 		pq.pop();
-		cout << cur.first << " ";
+		printf("%d ", cur.first);
 		for (auto a : a[cur.second]) {
 			num[a]--;
 			if (num[a] == 0)
