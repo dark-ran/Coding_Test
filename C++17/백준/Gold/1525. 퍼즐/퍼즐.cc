@@ -79,7 +79,8 @@ int main() {
             if (nx < 0 || nx >= 3 || ny < 0 || ny >= 3) continue;
 
             Board next = cur;
-            swap(next.data[cur.zero_x][cur.zero_y], next.data[nx][ny]);
+            next.data[cur.zero_x][cur.zero_y] = next.data[nx][ny];
+            next.data[nx][ny] = 0;
             next.zero_x = nx;
             next.zero_y = ny;
 
