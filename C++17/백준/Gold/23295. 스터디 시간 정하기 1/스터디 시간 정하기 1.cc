@@ -19,16 +19,16 @@ int main() {
 		}
 	}
 
-	for (int i = 1; i < 100'001; i++) {
+	for (int i = 1; i < 100'001; ++i) {
 		dp[i] += dp[i - 1];
 	}
-	for (int i = 1; i < 100'001; i++) {
+	for (int i = 1; i < 100'001; ++i) {
 		dp[i] += dp[i - 1];
 	}
 
 	ll MAX = -1;
 	int s = 0, e = 0;
-	for (int i = T; i < 100'001; i++) {
+	for (int i = T; i < 100'001; ++i) {
 		if (MAX < dp[i] - dp[i - T]) {
 			MAX = dp[i] - dp[i - T];
 			s = i - T;
