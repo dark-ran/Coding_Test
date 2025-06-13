@@ -3,16 +3,17 @@
 
 using namespace std;
 
-string XOR(string s1, string s2) {
-	s2 = string(s1.size() - s2.size(), '0') + s2;
-	for (int i = 0; i < s1.size(); i++) {
+string XOR(string&s1, string s2) {
+	if (s2.size() < s1.size())
+		s2 = string(s1.size() - s2.size(), '0') + s2;
+	for (int i = 0; i < s1.size(); i++)
 		s1[i] = (s1[i] != s2[i] ? '1' : '0');
-	}
 	int x = s1.find('1');
+	if (x == string::npos) return "0";
 	return s1.substr(x);
 }
 
-string func(int N, string S) {
+string func(int N, string&S) {
 	if (S.find('0') == string::npos) {
 		S.back() = '0';
 		return S;
