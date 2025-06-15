@@ -19,7 +19,7 @@ inline char get() {
     return *in_ptr++;
 }
 
-void nextLong(ll&x) {
+void nextLong(ll& x) {
     x = 0;
     char c;
     bool flag = true;
@@ -32,13 +32,14 @@ void nextLong(ll&x) {
     for (; c >= '0'; c = get()) {
         x = (x << 3) + (x << 1) + (c - '0');
     }
-    if (!flag)x = -x;
+    if (!flag) x = -x;
 }
 
-const int OSIZE = ISIZE;
+const int OSIZE = 1 << 21;
 char obuf[OSIZE];
 static int oidx = 0;
-void write(ll x) {
+
+inline void write(ll x) {
     if (oidx + 20 >= OSIZE) {
         fwrite(obuf, 1, oidx, stdout);
         oidx = 0;
@@ -70,32 +71,33 @@ void write(ll x) {
 
 const int SIZE = 1'000'005;
 ll arr[SIZE];
-vector<ll> lis;
 int idx[SIZE];
+ll lis[SIZE];
 
 int main() {
     ll N;
     nextLong(N);
 
+    int lis_len = 0;
     for (int i = 0; i < N; i++) {
         nextLong(arr[i]);
 
-        auto it = lower_bound(lis.begin(), lis.end(), arr[i]);
-        if (it == lis.end()) {
-            lis.push_back(arr[i]);
-            idx[i] = lis.size();
-        }
-        else {
+        auto it = lower_bound(lis, lis + lis_len, arr[i]);
+        if (it == lis + lis_len) {
+            lis[lis_len++] = arr[i];
+            idx[i] = lis_len;
+        } else {
             *it = arr[i];
-            idx[i] = it - lis.begin() + 1;
+            idx[i] = it - lis + 1;
         }
     }
 
-    ll cnt = lis.size();
+    ll cnt = lis_len;
     write(cnt);
     obuf[oidx - 1] = '\n';
 
     vector<ll> result;
+    result.reserve(cnt);
     for (int i = N - 1; i >= 0 && cnt > 0; i--) {
         if (idx[i] == cnt) {
             result.push_back(arr[i]);
