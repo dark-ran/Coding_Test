@@ -86,7 +86,8 @@ int main() {
         if (it == lis + lis_len) {
             lis[lis_len++] = arr[i];
             idx[i] = lis_len;
-        } else {
+        }
+        else {
             *it = arr[i];
             idx[i] = it - lis + 1;
         }
@@ -104,10 +105,8 @@ int main() {
             cnt--;
         }
     }
-
-    reverse(result.begin(), result.end());
-    for (ll num : result) {
-        write(num);
+    for (int i = result.size() -1 ; i >= 0; i--) {
+        write(result[i]);
     }
     fwrite(obuf, 1, oidx, stdout);
 }
