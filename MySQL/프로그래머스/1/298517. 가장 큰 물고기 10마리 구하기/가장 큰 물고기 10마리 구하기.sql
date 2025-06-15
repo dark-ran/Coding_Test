@@ -1,10 +1,4 @@
-select 
-    ID, LENGTH
-from
-    FISH_INFO
-where
-    LENGTH is not null
-order by 
-    LENGTH desc, 
-    ID asc
-limit 10
+SELECT R.ID, R.LENGTH
+FROM (SELECT ID, LENGTH, RANK() OVER(ORDER BY LENGTH DESC, ID ASC) AS RANKS
+                 FROM FISH_INFO) R
+WHERE R.RANKS <= 10
