@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdio.h>
 #include <vector>
 #include <algorithm>
 #define ll long long
@@ -19,7 +19,7 @@ inline char get() {
     return *in_ptr++;
 }
 
-void nextLong(ll& x) {
+void nextLong(ll&x) {
     x = 0;
     char c;
     bool flag = true;
@@ -33,6 +33,39 @@ void nextLong(ll& x) {
         x = (x << 3) + (x << 1) + (c - '0');
     }
     if (!flag)x = -x;
+}
+
+const int OSIZE = ISIZE;
+char obuf[OSIZE];
+static int oidx = 0;
+void write(ll x) {
+    if (oidx + 20 >= OSIZE) {
+        fwrite(obuf, 1, oidx, stdout);
+        oidx = 0;
+    }
+    if (x == 0) {
+        obuf[oidx++] = '0';
+        obuf[oidx++] = ' ';
+        return;
+    }
+    if (x < 0) {
+        obuf[oidx++] = '-';
+        x = -x;
+    }
+    int s = oidx;
+    while (x > 0) {
+        obuf[oidx++] = x % 10 + '0';
+        x /= 10;
+    }
+    int e = oidx - 1;
+    while (s < e) {
+        char t = obuf[s];
+        obuf[s] = obuf[e];
+        obuf[e] = t;
+        s++;
+        e--;
+    }
+    obuf[oidx++] = ' ';
 }
 
 const int SIZE = 1'000'005;
@@ -59,7 +92,8 @@ int main() {
     }
 
     ll cnt = lis.size();
-    cout << cnt << "\n";
+    write(cnt);
+    obuf[oidx - 1] = '\n';
 
     vector<ll> result;
     for (int i = N - 1; i >= 0 && cnt > 0; i--) {
@@ -71,6 +105,7 @@ int main() {
 
     reverse(result.begin(), result.end());
     for (ll num : result) {
-        cout << num << " ";
+        write(num);
     }
+    fwrite(obuf, 1, oidx, stdout);
 }
