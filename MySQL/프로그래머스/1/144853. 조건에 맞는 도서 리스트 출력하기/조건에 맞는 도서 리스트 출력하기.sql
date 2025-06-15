@@ -4,4 +4,3 @@ from BOOK
 where
     CATEGORY = '인문'
     and year(PUBLISHED_DATE) = '2021'
-order by PUBLISHED_DATE ASC
