@@ -3,36 +3,37 @@
 
 using namespace std;
 
-const int MAX = 1 << 16;
-const int INF = 1e9;
+const int MAX = 1 << 25;
 int cost[16][16];
-int dp[16][MAX];
-int N;
-int des;
-
-int dfs(int idx, int vis) {
-	if (vis == des) return cost[idx][0] == 0 ? INF : cost[idx][0];
-	if (dp[idx][vis] != -1) return dp[idx][vis];
-
-	dp[idx][vis] = 1987654321;
-	for (int i = 0; i < N; i++) {
-		if ((vis & (1 << i)) == 0 && cost[idx][i] != 0) {
-			dp[idx][vis] = min(dp[idx][vis], dfs(i, vis | (1 << i)) + cost[idx][i]);
-		}
-	}
-	return dp[idx][vis];
-}
+int dp[66000][16];
 
 int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+	int N;
 	cin >> N;
 	for (int i = 0; i < N; i++)
-		for (int j = 0; j < N; j++)
+		for (int j = 0; j < N; j++) {
 			cin >> cost[i][j];
-	des = (1 << N) - 1;
-	for (int i = 0; i < N; i++)
-		for (int j = 0; j <= des; j++)
-			dp[i][j] = -1;
+			if (!cost[i][j]) cost[i][j] = MAX;
+		}
+	int des = (1 << N - 1) - 1;
 
-	cout << dfs(0, 1);
+	for (int i = 0; i <= des; i++) {
+		for (int j = 0; j < N - 1; j++) {
+			dp[i][j] = MAX;
+			if (i == (1 << j)) dp[i][j] = cost[N-1][j];
+			else if (i & (1 << j)) {
+				for (int k = 0; k < N - 1; k++) {
+					if (k == j) continue;
+					int p = i ^ (1 << j);
+					dp[i][j] = min(dp[i][j], dp[p][k] + cost[k][j]);
+				}
+			}
+		}
+	}
+	int res = MAX;
+	for (int i = 0; i < N - 1; i++) {
+		res = min(res, dp[des][i] + cost[i][N - 1]);
+	}
+	cout << res;
 }
