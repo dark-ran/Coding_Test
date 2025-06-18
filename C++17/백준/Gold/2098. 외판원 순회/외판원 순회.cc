@@ -1,10 +1,10 @@
 #include<iostream>
-#define min(a,b) a<b?a:b
+#include<algorithm>
 
 using namespace std;
 
 const int MAX = 1 << 16;
-const int INF = 1000000000;
+const int INF = 1e9;
 int cost[16][16];
 int dp[16][MAX];
 int N;
