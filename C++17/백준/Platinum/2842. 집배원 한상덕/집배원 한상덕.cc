@@ -18,6 +18,7 @@ bool bfs(int left, int right,int des) {
 	if (left > height[start.first][start.second] || right < height[start.first][start.second])
 		return false;
 	q.push(start);
+	vis[start.first][start.second] = true;
 	int cnt = 0;
 	while (!q.empty()) {
 		auto cur = q.front();
