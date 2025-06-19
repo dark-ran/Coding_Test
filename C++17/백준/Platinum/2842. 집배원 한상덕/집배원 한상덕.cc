@@ -14,12 +14,12 @@ int dx[8] = { 1,1,1,0,-1,-1,-1,0 };
 int dy[8] = { 1,0,-1,-1,-1,0,1,1 };
 
 bool bfs(int left, int right,int des) {
-	queue<pair<int, int>>q;
-	for (int i = 0; i < N; i++) {
-		fill(vis[i], vis[i] + N, false);
-	}
 	if (left > height[start.first][start.second] || right < height[start.first][start.second])
 		return false;
+    queue<pair<int, int>>q;
+    for (int i = 0; i < N; i++) {
+		fill(vis[i], vis[i] + N, false);
+	}
 	q.push(start);
 	vis[start.first][start.second] = true;
 	int cnt = 0;
