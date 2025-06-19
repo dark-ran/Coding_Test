@@ -7,6 +7,7 @@ using namespace std;
 
 string arr[51];
 int height[51][51];
+bool vis[51][51];
 pair<int, int>start;
 int N;
 int dx[8] = { 1,1,1,0,-1,-1,-1,0 };
@@ -14,7 +15,9 @@ int dy[8] = { 1,0,-1,-1,-1,0,1,1 };
 
 bool bfs(int left, int right,int des) {
 	queue<pair<int, int>>q;
-	vector<vector<bool>>vis(N, vector<bool>(N, false));
+	for (int i = 0; i < N; i++) {
+		fill(vis[i], vis[i] + N, false);
+	}
 	if (left > height[start.first][start.second] || right < height[start.first][start.second])
 		return false;
 	q.push(start);
