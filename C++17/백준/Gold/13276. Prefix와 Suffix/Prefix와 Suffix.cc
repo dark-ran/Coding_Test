@@ -2,6 +2,7 @@
 #include <set>
 #include <vector>
 #include <algorithm>
+#include <functional> // for std::hash
 
 using namespace std;
 
@@ -12,7 +13,9 @@ int main() {
     ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
     string S, A, B;
     cin >> S >> A >> B;
-    set<string> s;
+    set<size_t> s;
+    hash<string> string_hash;
+
     int A_size = A.size();
     int B_size = B.size();
     int S_size = S.size();
@@ -59,7 +62,8 @@ int main() {
             int b_pos = *it;
             if (a_pos + A_size > b_pos + B_size) continue;
             string sub = S.substr(a_pos, b_pos + B_size - a_pos);
-            s.insert(sub);
+            size_t sub_hash = string_hash(sub);
+            s.insert(sub_hash);
         }
     }
 
