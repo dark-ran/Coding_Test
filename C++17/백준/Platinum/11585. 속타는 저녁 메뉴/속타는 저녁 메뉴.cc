@@ -6,7 +6,7 @@ const int MAX = 1'000'001;
 char p[MAX];
 int N;
 
-static const int ISIZE = 1 << 22;
+static const int ISIZE = 1 << 21;
 static char ibuf[ISIZE];
 static char* in_ptr;
 static char* end_ptr;
