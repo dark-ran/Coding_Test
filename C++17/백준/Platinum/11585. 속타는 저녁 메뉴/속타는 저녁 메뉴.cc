@@ -1,4 +1,4 @@
-#include<iostream>
+#include<stdio.h>
 
 using namespace std;
 
@@ -6,6 +6,29 @@ const int MAX = 1'000'001;
 char s[MAX * 2];
 char p[MAX];
 int f[MAX];
+
+static const int ISIZE = 1 << 22;
+static char ibuf[ISIZE];
+static char* in_ptr;
+static char* end_ptr;
+inline char get() {
+    if (in_ptr == end_ptr) {
+        end_ptr = ibuf + fread(ibuf, 1, ISIZE, stdin);
+        in_ptr = ibuf;
+    }
+    return *in_ptr++;
+}
+void next_char(char&c) {
+    while ((c = get()) < 'A');
+}
+void next_int(int&a) {
+    a = 0;
+    char c;
+    while ((c = get()) < '0');
+    do {
+        a = (a << 3) + (a << 1) + c - '0';
+    } while ((c = get()) >= '0');
+}
 
 inline int gcd(int a, int b) {
     while (b != 0) {
@@ -17,16 +40,12 @@ inline int gcd(int a, int b) {
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-
     int N;
-    cin >> N;
+    next_int(N);
     for (int i = 0; i < N; i++)
-        cin >> s[i];
+        next_char(s[i]);
     for (int i = 0; i < N; i++)
-        cin >> p[i];
+        next_char(p[i]);
 
     for (int i = 0; i < N; i++)
         s[N + i] = s[i];
@@ -49,5 +68,5 @@ int main() {
     }
 
     int g = gcd(C, N);
-    cout << C / g << "/" << N / g;
+    printf("%d/%d", C / g, N / g);
 }
