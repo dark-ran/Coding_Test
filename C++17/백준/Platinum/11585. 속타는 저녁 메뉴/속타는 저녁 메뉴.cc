@@ -66,7 +66,11 @@ int main() {
             j = f[j - 1];
         }
     }
-
+    
+    if(C==1){
+        printf("%d/%d", C, N);
+        return 0;
+    }
     int g = gcd(C, N);
     printf("%d/%d", C / g, N / g);
 }
