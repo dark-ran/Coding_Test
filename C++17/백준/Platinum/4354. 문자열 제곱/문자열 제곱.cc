@@ -29,12 +29,8 @@ int main() {
 	string s;
 	while (1) {
 		s = next_string();
+        if (s == ".") return 0;
 		int l = s.size();
-		if (s == ".") return 0;
-		if (l == 1) {
-			cout << "1\n";
-			continue;
-		}
 		int cnt = 0;
 		for (int i = 1, j = 0; i < l; i++) {
 			if (s[i] == s[j]) {
@@ -51,12 +47,11 @@ int main() {
 			}
 		}
 
-		int rep = l - cnt;
-		if (l % rep) {
+		if (l % (l - cnt)) {
 			cout << "1\n";
 		}
 		else {
-			cout << l / rep << "\n";
+			cout << l / (l - cnt) << "\n";
 		}
 	}
 }
