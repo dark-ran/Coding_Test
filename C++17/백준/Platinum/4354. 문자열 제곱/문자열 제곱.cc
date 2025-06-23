@@ -49,7 +49,7 @@ int main() {
 	string s;
 	while (1) {
 		s = next_string();
-		l = s.length();
+		l = s.size();
 		if (s == ".") return 0;
 		if (l == 1) {
 			cout << "1\n";
