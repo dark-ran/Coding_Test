@@ -24,39 +24,34 @@ string next_string() {
 	return s;
 }
 
-int f[1'000'000];
-int l;
-
-void make_f(string&s) {
-	for (int i = 1, j = 0; i < l; i++) {
-		if (s[i] == s[j]) {
-			f[i] = f[i - 1] + 1;
-			j++;
-		}
-		else {
-			f[i] = 0;
-			j = 0;
-			if (s[i] == s[j]) {
-				f[i] = 1;
-				j++;
-			}
-		}
-	}	
-}
-
 int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr);
 	string s;
 	while (1) {
 		s = next_string();
-		l = s.size();
+		int l = s.size();
 		if (s == ".") return 0;
 		if (l == 1) {
 			cout << "1\n";
 			continue;
 		}
-		make_f(s);
-		int rep = l - f[l - 1];
+		int cnt = 0;
+		for (int i = 1, j = 0; i < l; i++) {
+			if (s[i] == s[j]) {
+				cnt++;
+				j++;
+			}
+			else {
+				cnt = 0;
+				j = 0;
+				if (s[i] == s[j]) {
+					cnt = 1;
+					j++;
+				}
+			}
+		}
+
+		int rep = l - cnt;
 		if (l % rep) {
 			cout << "1\n";
 		}
