@@ -5,9 +5,11 @@
 using namespace std;
 
 struct s {
-	int diff, start, end, num;
+	int start, end, num;
 	bool operator<(const s& a) {
-		return diff < a.diff;
+		if (end != a.end)
+			return end < a.end;
+		return start < a.start;
 	}
 };
 
@@ -19,7 +21,7 @@ int main() {
 	for (int i = 0; i < M; i++) {
 		int a, b, c;
 		cin >> a >> b >> c;
-		arr[i] = { b - a,a,b,c };
+		arr[i] = { a,b,c };
 	}
 	sort(arr.begin(), arr.end());
 
