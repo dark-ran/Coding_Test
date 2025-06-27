@@ -12,15 +12,6 @@ int find(int x) {
 	return parent[x] = find(parent[x]);
 }
 
-void unite(int x, int y) {
-	x = find(x);
-	y = find(y);
-	if (x != y) {
-		parent[x] = y;
-	}
-
-}
-
 int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 	int N;
