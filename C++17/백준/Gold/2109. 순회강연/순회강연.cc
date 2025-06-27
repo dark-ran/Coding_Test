@@ -5,7 +5,12 @@
 
 using namespace std;
 
-bool vis[10'000];
+int par[10'001];
+
+int find(int x) {
+	if (par[x] == x) return x;
+	return par[x] = find(par[x]);
+}
 
 int main(){
 	ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
@@ -17,16 +22,17 @@ int main(){
 		cin >> p >> d;
 		arr[i] = { p,d };
 	}
+	for (int i = 0; i <= 10'000; i++) {
+		par[i] = i;
+	}
 	sort(arr.begin(), arr.end(), greater<>());
 
 	int sum = 0;
 	for (int i = 0; i < N; i++) {
-		for (int j = arr[i].second - 1; j >= 0; j--) {
-			if (!vis[j]) {
-				vis[j] = true;
-				sum += arr[i].first;
-				break;
-			}
+		int slot = find(arr[i].second);
+		if (slot != 0) {
+			sum += arr[i].first;
+			par[slot] = slot - 1;
 		}
 	}
 	cout << sum;
