@@ -1,82 +1,60 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include<iostream>
+#include<vector>
+#include<algorithm>
 
 using namespace std;
 
-int solve(string& s, bool AB_first) {
-    vector<int> A, B, C;
-    for (int i = 0; i < s.size(); i++) {
-        if (s[i] == 'A') A.push_back(i);
-        else if (s[i] == 'B') B.push_back(i);
-        else if (s[i] == 'C') C.push_back(i);
-    }
-
-    int res = 0;
-    if (AB_first) {
-        int a = 0, b = 0;
-        while (a < A.size() && b < B.size()) {
-            if (A[a] < B[b]) {
-                res++;
-                a++;
-                b++;
-            }
-            else {
-                b++;
-            }
-        }
-
-        b = 0;
-        int c = 0;
-        while (b < B.size() && c < C.size()) {
-            if (B[b] < C[c]) {
-                res++;
-                b++;
-                c++;
-            }
-            else {
-                c++;
-            }
-        }
-    }
-    else {
-        int b = 0, c = 0;
-        while (b < B.size() && c < C.size()) {
-            if (B[b] < C[c]) {
-                res++;
-                b++;
-                c++;
-            }
-            else {
-                c++;
-            }
-        }
-
-        b = 0;
-        int a = 0;
-        while (a < A.size() && b < B.size()) {
-            if (A[a] < B[b]) {
-                res++;
-                a++;
-                b++;
-            }
-            else {
-                b++;
-            }
-        }
-    }
-    return res;
-}
-
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+	ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+	string s;
+	cin >> s;
+	vector<int>A;
+	vector<int>B;
+	vector<int>C;
+	A.resize(s.length());
+	B.resize(s.length());
+	C.resize(s.length());
+	int asize = 0, bsize = 0, csize = 0;
+	for (int i = s.length() - 1; i >= 0; i--) {
+		if (s[i] == 'A') {
+			A[asize++] = i;
+		}
+		else if (s[i] == 'B') {
+			B[bsize++] = i;
+		}
+		else if (s[i] == 'C') {
+			C[csize++] = i;
+		}
+	}
 
-    string s;
-    cin >> s;
+	int a = 0, b = 0, c = 0, sum = 0;
+	while (true) {
+		if (a >= asize || b >= bsize)
+			break;
 
-    int ans = max(solve(s, true), solve(s, false));
-    cout << ans << flush;
+		if (A[a] < B[b]) {
+			sum++;
+			a++;
+			b++;
+		}
+		else {
+			a++;
+		}
+	}
 
+	while (true) { //남은 B와 C
+		if (c >= csize || b >= bsize)
+			break;
+
+		if (B[b] < C[c]) {
+			c++;
+			b++;
+			sum++;
+		}
+		else {
+			b++;
+		}
+	}
+
+	cout << sum;
 }
