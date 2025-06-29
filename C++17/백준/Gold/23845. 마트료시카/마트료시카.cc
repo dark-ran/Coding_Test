@@ -4,10 +4,9 @@ using namespace std;
 int cnt[100'001];
 int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
-	int N;
+	int N,x;
 	cin >> N;
 	while (N--) {
-		int x;
 		cin >> x;
 		cnt[x]++;
 	}
