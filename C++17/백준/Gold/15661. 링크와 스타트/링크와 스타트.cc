@@ -4,10 +4,20 @@
 using namespace std;
 
 int v[20];
+int res, N;
+void bfs(int idx , int num) {
+	if (idx == N) {
+		res = res < abs(num) ? res : abs(num);
+		return;
+	}
+
+	bfs(idx + 1, num - v[idx]);
+	bfs(idx + 1, num);
+}
 
 int main() {
 	ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr);
-	int N, x, sum = 0;
+	int x, sum = 0;
 	cin >> N;
 
 	for (int i = 0;i < N;i++)
@@ -18,15 +28,7 @@ int main() {
 			v[j] += x;
 		}
 
-	int l = 1 << N - 1;
-	int res = 1987654321;
-	for (int i = 1;i < l;i++) {
-		int num = sum;
-		for (int j = 0;j < N;j++) {
-			if (i & (1 << j))
-				num -= v[j];
-		}
-		res = res < abs(num) ? res : abs(num);
-	}
+	res = 1987654321;
+	bfs(0, sum);
 	cout << res;
 }
