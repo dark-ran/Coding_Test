@@ -1,14 +1,16 @@
 #include<iostream>
 #include<vector>
+#include<algorithm>
 
 using namespace std;
+
+int v[20][20];
 
 int main() {
 	ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr);
 	int N;
 	cin >> N;
 
-	vector<vector<int>>v(N, vector<int>(N));
 	for (int i = 0;i < N;i++)
 		for (int j = 0;j < N;j++) {
 			cin >> v[i][j];
