@@ -30,5 +30,5 @@ int main(){
         if(result < dp[n][i])
             result = dp[n][i];
     }
-    cout << result;
+    cout << result <<flush;
 }
