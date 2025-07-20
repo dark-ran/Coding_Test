@@ -59,16 +59,14 @@ int main() {
 			max_col = arr[i];
 		}
 	}
-	if (max_num > (query[0].r-query[0].l+1)>>1)
+	if (max_num > (query[0].r - query[0].l + 1) >> 1)
 		ans[query[0].idx] = max_col;
 
 	for (int i = 1;i < M;i++) {
-		if (l < query[i].l) QueryDel(l, query[i].l - 1);
-		if (l > query[i].l) QueryAdd(query[i].l, l - 1);
-		if (r > query[i].r) QueryDel(query[i].r + 1, r);
-		if (r < query[i].r) QueryAdd(r + 1, query[i].r);
-		l = query[i].l;
-		r = query[i].r;
+		while (l < query[i].l) color[arr[l++]]--;
+		while (l > query[i].l) color[arr[--l]]++;
+		while (r < query[i].r) color[arr[++r]]++;
+		while (r > query[i].r) color[arr[r--]]--;
 
 		max_col = 0;
 		max_num = 0;
