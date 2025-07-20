@@ -49,36 +49,22 @@ int main() {
 
 	sort(query.begin(), query.end(), cmp);
 
-	int l = query[0].l;
-	int r = query[0].r;
-	int max_num = 0;
-	int max_col = 0;
-	for (int i = l;i <= r;i++) {
-		if (max_num < ++color[arr[i]]) {
-			max_num = color[arr[i]];
-			max_col = arr[i];
-		}
-	}
-	if (max_num > (query[0].r - query[0].l + 1) >> 1)
-		ans[query[0].idx] = max_col;
+	int l = 0;
+	int r = -1;
 
-	for (int i = 1;i < M;i++) {
+	for (int i = 0;i < M;i++) {
 		while (l < query[i].l) color[arr[l++]]--;
 		while (l > query[i].l) color[arr[--l]]++;
 		while (r < query[i].r) color[arr[++r]]++;
 		while (r > query[i].r) color[arr[r--]]--;
 
-		max_col = 0;
-		max_num = 0;
+		int mid = (r - l + 1) >> 1;
 		for (int j = 1;j <= C;j++) {
-			if (max_num < color[j]) {
-				max_num = color[j];
-				max_col = j;
+			if (mid < color[j]) {
+				ans[query[i].idx] = j;
+				break;
 			}
 		}
-
-		if (max_num > (query[i].r - query[i].l + 1) >> 1)
-			ans[query[i].idx] = max_col;
 	}
 
 	for (int i = 0;i < M;i++) {
