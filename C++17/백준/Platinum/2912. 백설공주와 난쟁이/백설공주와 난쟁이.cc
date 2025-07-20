@@ -21,7 +21,7 @@ int main() {
 		int l, r;
 		cin >> l >> r;
 		bool flag = false;
-		for (int i = 0;i < 20;i++) {
+		for (int i = 0;i < 16;i++) {
 			int num = l + rand() % (r - l + 1);
 			int c = arr[num];
 			int cnt = upper_bound(idx[c].begin(), idx[c].end(), r) - lower_bound(idx[c].begin(), idx[c].end(), l);
