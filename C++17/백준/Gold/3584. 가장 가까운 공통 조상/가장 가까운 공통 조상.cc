@@ -3,6 +3,9 @@
 
 using namespace std;
 
+int par[10'001];
+bool vis[10'001];
+
 int main() {
 	ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr);
 	int T;
@@ -10,16 +13,18 @@ int main() {
 	while (T--) {
 		int N;
 		cin >> N;
-		vector<int>par(N + 1);
+		for (int i = 1;i <= N;i++) {
+			par[i] = i;
+			vis[i] = false;
+		}
 		int x, y;
 		for (int i = 1;i < N;i++) {
 			cin >> x >> y;
 			par[y] = x;
 		}
-		vector<bool>vis(N + 1);
 		cin >> x >> y;
 		vis[x] = true;
-		while (par[x] != 0) {
+		while (par[x] != x) {
 			x = par[x];
 			vis[x] = true;
 		}
