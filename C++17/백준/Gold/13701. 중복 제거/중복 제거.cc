@@ -4,7 +4,7 @@ using namespace std;
 
 bitset<33554433> vis;
 
-const int BUFFER_SIZE = 1 << 20; // 1MB 버퍼
+const int BUFFER_SIZE = 1 << 20;
 char input_buffer[BUFFER_SIZE];
 char output_buffer[BUFFER_SIZE];
 int input_pos = 0, input_len = 0;
@@ -59,6 +59,7 @@ inline void writeInt(int num) {
 }
 
 int main() {
+    ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr);
     setvbuf(stdin, nullptr, _IOFBF, BUFFER_SIZE);
     setvbuf(stdout, nullptr, _IOFBF, BUFFER_SIZE);
 
