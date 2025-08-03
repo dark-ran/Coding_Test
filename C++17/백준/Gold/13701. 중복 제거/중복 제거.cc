@@ -4,32 +4,64 @@ using namespace std;
 
 bitset<33554433> vis;
 
-int nextInt() {
-    char c;
-    int a = 0;
+const int BUFFER_SIZE = 1 << 20; // 1MB 버퍼
+char input_buffer[BUFFER_SIZE];
+char output_buffer[BUFFER_SIZE];
+int input_pos = 0, input_len = 0;
+int output_pos = 0;
+
+inline int readInt() {
+    int num = 0;
     bool is_num = false;
-    while (cin.get(c)) {
+
+    while (true) {
+        if (input_pos >= input_len) {
+            input_len = fread(input_buffer, 1, BUFFER_SIZE, stdin);
+            input_pos = 0;
+            if (input_len == 0) return is_num ? num : -1; // EOF
+        }
+
+        char c = input_buffer[input_pos++];
         if (c >= '0' && c <= '9') {
-            a = (a << 3) + (a << 1) + (c - '0');
+            num = num * 10 + (c - '0');
             is_num = true;
         }
         else if (is_num) {
-            return a;
+            return num;
         }
     }
+}
 
-    if (is_num) return a;
-    else return -1;
+inline void writeInt(int num) {
+    if (num == 0) {
+        output_buffer[output_pos++] = '0';
+    }
+    else {
+        char temp[10];
+        int len = 0;
+        while (num > 0) {
+            temp[len++] = '0' + (num % 10);
+            num /= 10;
+        }
+        for (int i = len - 1; i >= 0; i--) {
+            output_buffer[output_pos++] = temp[i];
+        }
+    }
+    output_buffer[output_pos++] = ' ';
+
+    if (output_pos > BUFFER_SIZE - 20) {
+        fwrite(output_buffer, 1, output_pos, stdout);
+        output_pos = 0;
+    }
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+    setvbuf(stdin, nullptr, _IOFBF, BUFFER_SIZE);
+    setvbuf(stdout, nullptr, _IOFBF, BUFFER_SIZE);
 
     int a;
     while (true) {
-        a = nextInt();
+        a = readInt();
         if (a == -1) break;
 
         if (!vis[a]) {
@@ -37,4 +69,5 @@ int main() {
             cout << a << " ";
         }
     }
+    fwrite(output_buffer, 1, output_pos, stdout);
 }
