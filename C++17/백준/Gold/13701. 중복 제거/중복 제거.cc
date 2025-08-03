@@ -37,14 +37,17 @@ inline void writeInt(int num) {
         output_buffer[output_pos++] = '0';
     }
     else {
-        char temp[10];
-        int len = 0;
+        int s = output_pos;
         while (num > 0) {
-            temp[len++] = '0' + (num % 10);
+            output_buffer[output_pos++] = '0' + (num % 10);
             num /= 10;
         }
-        for (int i = len - 1; i >= 0; i--) {
-            output_buffer[output_pos++] = temp[i];
+        int e = output_pos - 1;
+        while (s < e) {
+            char t = output_buffer[s];
+            output_buffer[s] = output_buffer[e];
+            output_buffer[e] = t;
+            s++, e--;
         }
     }
     output_buffer[output_pos++] = ' ';
