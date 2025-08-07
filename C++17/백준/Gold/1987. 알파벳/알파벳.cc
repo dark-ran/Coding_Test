@@ -11,6 +11,7 @@ inline void dfs(int x, int y, int visited, int cnt) {
     static const int dy[] = { 0, 1, 0, -1 };
 
     MAX = MAX > cnt ? MAX : cnt;
+    if (MAX == 26) return;
 
     for (int i = 0; i < 4; i++) {
         int nx = x + dx[i];
