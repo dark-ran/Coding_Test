@@ -1,9 +1,8 @@
-#include<stdio.h>
-#include<vector>
-#include<queue>
-#include<cstring>
+#include <stdio.h>
+#include <vector>
+#include <queue>
+#include <cstring>
 #define abs(x) ((x)<0?-(x):(x))
-#define pii pair<int,int>
 using namespace std;
 
 int N, L, R;
@@ -11,16 +10,29 @@ int arr[52][52];
 bool vis[52][52];
 int dx[4] = { 1,0,-1,0 };
 int dy[4] = { 0,1,0,-1 };
+queue<pair<int, int>> q;
+vector<pair<int, int>> union_cells;
 
-bool bfs(int x, int y, vector<pii>& union_cells) {
-    queue<pii> q;
+inline int fastRead() {
+    int x = 0;
+    char c = getchar();
+    while (c < '0' || c > '9') c = getchar();
+    while (c >= '0' && c <= '9') {
+        x = x * 10 + (c - '0');
+        c = getchar();
+    }
+    return x;
+}
+
+bool bfs(int x, int y) {
     q.push({ x, y });
     vis[x][y] = true;
     int sum = arr[x][y];
+    union_cells.clear();
     union_cells.push_back({ x, y });
 
     while (!q.empty()) {
-        pii cur = q.front(); q.pop();
+        auto cur = q.front(); q.pop();
         for (int i = 0; i < 4; i++) {
             int nx = cur.first + dx[i];
             int ny = cur.second + dy[i];
@@ -37,38 +49,35 @@ bool bfs(int x, int y, vector<pii>& union_cells) {
 
     if (union_cells.size() > 1) {
         int avg = sum / union_cells.size();
-        for (pii& cell : union_cells) arr[cell.first][cell.second] = avg;
+        for (auto& cell : union_cells) arr[cell.first][cell.second] = avg;
         return true;
     }
     return false;
 }
 
 int main() {
-    scanf("%d%d%d", &N, &L, &R);
-    for (int i = 0;i <= N;i++) {
-        arr[0][i] = arr[i][0] = arr[N + 1][i] = arr[i][N + 1] = -1;
-    }
+    N = fastRead(); L = fastRead(); R = fastRead();
+    memset(arr, -1, sizeof(arr));
     for (int i = 1; i <= N; i++)
         for (int j = 1; j <= N; j++)
-            scanf("%d", &arr[i][j]);
+            arr[i][j] = fastRead();
 
     int res = 0;
-    vector<pii> next_starts;
-    for (int i = 1;i <= N;i++)
-        for (int j = (i % 2 == 1 ? 1 : 2);j <= N;j++)
-            next_starts.push_back({ i,j });
+    vector<pair<int, int>> next_starts;
+    for (int i = 1; i <= N; i++)
+        for (int j = (i % 2 ? 1 : 2); j <= N; j += 2)
+            next_starts.push_back({ i, j });
 
     while (true) {
         memset(vis, 0, sizeof(vis));
         bool moved = false;
-        vector<pii> current_starts;
+        vector<pair<int, int>> current_starts;
 
-        for (pii a : next_starts) {
+        for (auto& a : next_starts) {
             if (vis[a.first][a.second]) continue;
-            vector<pii> union_cells;
-            if (bfs(a.first, a.second, union_cells)) {
+            if (bfs(a.first, a.second)) {
                 moved = true;
-                for (pii& cell : union_cells) 
+                for (auto& cell : union_cells)
                     current_starts.push_back(cell);
             }
         }
@@ -78,6 +87,6 @@ int main() {
             return 0;
         }
         res++;
-        next_starts = current_starts;
+        next_starts = move(current_starts);
     }
 }
