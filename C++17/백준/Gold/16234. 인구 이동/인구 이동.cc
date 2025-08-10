@@ -1,4 +1,4 @@
-#include<iostream>
+#include<stdio.h>
 #include<vector>
 #include<queue>
 #include<cstring>
@@ -44,14 +44,13 @@ bool bfs(int x, int y, vector<pii>& union_cells) {
 }
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
-    cin >> N >> L >> R;
+    scanf("%d%d%d", &N, &L, &R);
     for (int i = 0;i <= N;i++) {
         arr[0][i] = arr[i][0] = arr[N + 1][i] = arr[i][N + 1] = -1;
     }
     for (int i = 1; i <= N; i++)
         for (int j = 1; j <= N; j++)
-            cin >> arr[i][j];
+            scanf("%d", &arr[i][j]);
 
     int res = 0;
     vector<pii> next_starts;
@@ -75,7 +74,7 @@ int main() {
         }
 
         if (!moved) {
-            cout << res;
+            printf("%d", res);
             return 0;
         }
         res++;
