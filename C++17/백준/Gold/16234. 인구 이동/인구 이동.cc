@@ -52,7 +52,7 @@ int main() {
 		vector<vector<bool>>vis(N, vector<bool>(N, false));
 		bool check = false;
 		for (int i = 0;i < N;i++) {
-			for (int j = 0;j < N;j++) {
+			for (int j = (i % 2 == 0 ? 0 : 1);j < N;j+=2) {
 				if (vis[i][j]) continue;
 				if (bfs(i, j, &vis))
 					check = true;
