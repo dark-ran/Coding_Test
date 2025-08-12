@@ -1,11 +1,13 @@
 #include<iostream>
 #include<vector>
+#include<algorithm>
 #define pii pair<int,int>
 #define abs(x) ((x)<0?-(x):(x))
 #define min(a,b) ((a)<(b)?(a):(b))
 using namespace std;
 
 int arr[50][50];
+int dist[100][13];
 bool selected[13];
 int N, M, ans = 19876543;
 vector<pii>house;
@@ -15,15 +17,12 @@ int house_size, chiken_size;
 int get_dist() {
 	int sum = 0;
 	for (int i = 0;i < house_size;i++) {
-		int x = house[i].first;
-		int y = house[i].second;
-		int dist = 198765;
+		int MIN = 1987654;
 		for (int j = 0;j < chiken_size;j++) {
-			if (!selected[j]) continue;
-			int num = abs(x - chiken[j].first) + abs(y - chiken[j].second);
-			dist = min(dist, num);
+			if (selected[j])
+				MIN = min(MIN, dist[i][j]);
 		}
-		sum += dist;
+		sum += MIN;
 	}
 	return sum;
 }
@@ -51,9 +50,13 @@ int main() {
 			if (arr[i][j] == 1) house.push_back({ i,j });
 			else if (arr[i][j] == 2) chiken.push_back({ i,j });
 		}
-
 	house_size = house.size();
 	chiken_size = chiken.size();
+
+	for (int i = 0;i < house_size;i++)
+		for (int j = 0;j < chiken_size;j++)
+			dist[i][j] = abs(house[i].first - chiken[j].first) + abs(house[i].second - chiken[j].second);
+
 	choose(0, 0);
 	cout << ans;
 }
