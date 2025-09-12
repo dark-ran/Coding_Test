@@ -2,6 +2,7 @@
 #include<vector>
 #include<algorithm>
 #define ll long long
+#define abs(x) ((x)<0?-(x):(x))
 using namespace std;
 
 int main() {
