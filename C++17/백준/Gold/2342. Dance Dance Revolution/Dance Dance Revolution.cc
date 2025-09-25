@@ -32,14 +32,8 @@ int main() {
 			for (int j = 0;j < 5;j++) {
 				if (!pre[i][j])
 					continue;
-				int cost1 = pre[i][j] + weight[i][a];
-				if (cur[a][j] == 0 || cost1 < cur[a][j])
-					cur[a][j] = cost1;
-
-				// 오른발을 a로 이동 (j→a)
-				int cost2 = pre[i][j] + weight[j][a];
-				if (cur[i][a] == 0 || cost2 < cur[i][a])
-					cur[i][a] = cost2;
+				cur[a][j] = (cur[a][j] == 0 ? pre[i][j] + weight[i][a] : min(cur[a][j], pre[i][j] + weight[i][a]));
+				cur[i][a] = (cur[i][a] == 0 ? pre[i][j] + weight[j][a] : min(cur[i][a], pre[i][j] + weight[j][a]));
 			}
 		}
 		for (int i = 0;i < 5;i++)
