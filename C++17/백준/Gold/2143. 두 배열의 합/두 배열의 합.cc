@@ -38,14 +38,18 @@ int main() {
 	sort(B_sum.begin(), B_sum.end());
 
 	long long cnt = 0;
+	auto b_begin = B_sum.begin();
 
-	auto upper = B_sum.end();
-	auto lower = B_sum.begin();
-	for (int a : A_sum) {
-		int num = T - a;
-		upper = upper_bound(B_sum.begin(), upper, num);
-		lower = lower_bound(B_sum.begin(), upper, num);
-		cnt += upper - lower;
+	for (int i = A_sum.size() - 1; i >= 0; i--) {
+		int a = A_sum[i];
+		int target = T - a;
+
+		auto lower = lower_bound(b_begin, B_sum.end(), target);
+		auto upper = upper_bound(b_begin, B_sum.end(), target);
+
+		cnt += (upper - lower);
+
+		b_begin = lower;
 	}
-	cout << cnt;
+	cout << cnt << flush;
 }
