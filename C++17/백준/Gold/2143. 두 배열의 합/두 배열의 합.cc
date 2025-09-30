@@ -34,14 +34,18 @@ int main() {
 			B_sum.push_back(sum);
 		}
 	}
-
+	sort(A_sum.begin(), A_sum.end());
 	sort(B_sum.begin(), B_sum.end());
+
 	long long cnt = 0;
+
+	auto upper = B_sum.end();
+	auto lower = B_sum.begin();
 	for (int a : A_sum) {
 		int num = T - a;
-		auto up = upper_bound(B_sum.begin(), B_sum.end(), num);
-		auto end = lower_bound(B_sum.begin(), B_sum.end(), num);
-		cnt += up - end;
+		upper = upper_bound(B_sum.begin(), upper, num);
+		lower = lower_bound(B_sum.begin(), upper, num);
+		cnt += upper - lower;
 	}
 	cout << cnt;
 }
