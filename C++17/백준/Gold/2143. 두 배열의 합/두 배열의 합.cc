@@ -4,52 +4,70 @@
 using namespace std;
 
 int main() {
-	ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr);
-	int T, N, M, x;
-	cin >> T >> N;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
 
-	vector<int>A(N);
-	for (int i = 0;i < N;i++)
-		cin >> A[i];
-	cin >> M;
-	vector<int>B(M);
-	for (int i = 0;i < M;i++)
-		cin >> B[i];
+    int T, N, M;
+    cin >> T >> N;
 
-	vector<int>A_sum;
-	for (int i = 0;i < N;i++) {
-		int sum = A[i];
-		A_sum.push_back(sum);
-		for (int j = i + 1;j < N;j++) {
-			sum += A[j];
-			A_sum.push_back(sum);
-		}
-	}
-	vector<int>B_sum;
-	for (int i = 0;i < M;i++) {
-		int sum = B[i];
-		B_sum.push_back(sum);
-		for (int j = i + 1;j < M;j++) {
-			sum += B[j];
-			B_sum.push_back(sum);
-		}
-	}
-	sort(A_sum.begin(), A_sum.end());
-	sort(B_sum.begin(), B_sum.end());
+    vector<int>A(N);
+    for (int i = 0; i < N; i++) cin >> A[i];
+    cin >> M;
+    vector<int>B(M);
+    for (int i = 0; i < M; i++) cin >> B[i];
 
-	long long cnt = 0;
-	auto b_begin = B_sum.begin();
+    vector<long long> A_sum, B_sum;
 
-	for (int i = A_sum.size() - 1; i >= 0; i--) {
-		int a = A_sum[i];
-		int target = T - a;
+    for (int i = 0; i < N; i++) {
+        long long sum = 0;
+        for (int j = i; j < N; j++) {
+            sum += A[j];
+            A_sum.push_back(sum);
+        }
+    }
 
-		auto lower = lower_bound(b_begin, B_sum.end(), target);
-		auto upper = upper_bound(b_begin, B_sum.end(), target);
+    for (int i = 0; i < M; i++) {
+        long long sum = 0;
+        for (int j = i; j < M; j++) {
+            sum += B[j];
+            B_sum.push_back(sum);
+        }
+    }
 
-		cnt += (upper - lower);
+    sort(A_sum.begin(), A_sum.end());
+    sort(B_sum.begin(), B_sum.end());
 
-		b_begin = lower;
-	}
-	cout << cnt << flush;
+    long long cnt = 0;
+    int i = 0, j = B_sum.size() - 1;
+
+    while (i < A_sum.size() && j >= 0) {
+        long long sum = A_sum[i] + B_sum[j];
+
+        if (sum == T) {
+
+            long long cntA = 1, cntB = 1;
+            while (i + 1 < A_sum.size() && A_sum[i] == A_sum[i + 1]) {
+                cntA++;
+                i++;
+            }
+
+            while (j - 1 >= 0 && B_sum[j] == B_sum[j - 1]) {
+                cntB++;
+                j--;
+            }
+
+            cnt += cntA * cntB;
+            i++;
+            j--;
+        }
+        else if (sum < T) {
+            i++;
+        }
+        else {
+            j--;
+        }
+    }
+
+    cout << cnt;
 }
