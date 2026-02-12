@@ -1,18 +1,20 @@
 #include <iostream>
+
 using namespace std;
 
-int parent[1000001];
-int nxt[1000001];
+int par[1000001];
 
-int find(int x) {
-    if (parent[x] == x) return x;
-    return parent[x] = find(parent[x]);
+int find(int a) {
+    if (par[a] == a)
+        return a;
+    return par[a] = find(par[a]);
 }
 
-void unite(int a, int b) {
+void join(int a, int b) {
     a = find(a);
     b = find(b);
-    if (a != b) parent[a] = b;
+    if (a == b) return;
+    par[a] = b;
 }
 
 int main() {
@@ -22,10 +24,8 @@ int main() {
     int N, M;
     cin >> N >> M;
 
-    for (int i = 1; i <= N; i++) {
-        parent[i] = i;
-        nxt[i] = i + 1;
-    }
+    for (int i = 1; i <= N; i++)
+        par[i] = i;
 
     int cnt = N;
 
@@ -33,15 +33,12 @@ int main() {
         int x, y;
         cin >> x >> y;
 
-        int cur = x;
-        while (cur < y) {
-            cur = find(cur);     // 이미 처리된 구간 점프
-            if (cur >= y) break;
-
-            unite(cur, cur + 1);
-            cnt--;
-
-            parent[cur] = cur + 1; // 경로 압축용
+        for (int i = find(x); i < y; i = find(i + 1)) {
+            int next = find(i + 1);
+            if (i != next) {
+                par[i] = next;
+                cnt--;
+            }
         }
     }
 
