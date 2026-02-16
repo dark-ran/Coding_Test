@@ -6,7 +6,6 @@
 using namespace std;
 
 vector<vector<pii>>v1; //{node,dis}
-vector<vector<pii>>v2; //{node,dis}
 vector<bool>vis;
 
 int main() {
@@ -14,13 +13,12 @@ int main() {
 	int N, M;
 	cin >> N >> M;
 	v1.resize(N);
-	v2.resize(N);
 	vis.resize(N);
 	for (int i = 1;i < N;i++) {
 		int x, y, z;
 		cin >> x >> y >> z;
 		v1[x - 1].push_back({ y - 1,z });
-		v2[y - 1].push_back({ x - 1,z });
+		v1[y - 1].push_back({ x - 1,z });
 	}
 
 	while (M--) {
@@ -44,11 +42,6 @@ int main() {
 			vis[cur.second] = true;
 			for (auto a : v1[cur.second]) {
 				if (vis[a.first]) 
-					continue;
-				pq.push({ cur.first + a.second,a.first });
-			}
-			for (auto a : v2[cur.second]) {
-				if (vis[a.first])
 					continue;
 				pq.push({ cur.first + a.second,a.first });
 			}
