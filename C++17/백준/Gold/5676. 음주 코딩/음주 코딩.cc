@@ -30,8 +30,7 @@ struct Fenwick {
 };
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    ios::sync_with_stdio(false);cin.tie(nullptr);
 
     int N, K;
     while (cin >> N >> K) {
@@ -86,7 +85,7 @@ int main() {
                 }
                 else {
                     int negCnt = neg.range(a, b);
-                    if (negCnt % 2) cout << "-";
+                    if (negCnt&1) cout << "-";
                     else cout << "+";
                 }
             }
