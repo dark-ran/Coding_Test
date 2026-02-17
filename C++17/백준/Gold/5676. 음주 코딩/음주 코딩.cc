@@ -1,58 +1,96 @@
-#include<iostream>
+#include <iostream>
 #include<vector>
-#include<cmath>
 
 using namespace std;
 
+struct Fenwick {
+    int n;
+    vector<int> tree;
+    Fenwick(int n) : n(n), tree(n + 1, 0) {}
+
+    void update(int i, int diff) {
+        while (i <= n) {
+            tree[i] += diff;
+            i += i & -i;
+        }
+    }
+
+    int sum(int i) {
+        int s = 0;
+        while (i > 0) {
+            s += tree[i];
+            i -= i & -i;
+        }
+        return s;
+    }
+
+    int range(int l, int r) {
+        return sum(r) - sum(l - 1);
+    }
+};
+
 int main() {
-	ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr);
-	int N, K;
-	while (cin >> N >> K) {
-		int h = (int)ceil(log(N) / log(2));
-		int size = 1 << h;
-		vector<int>tree(size << 1);
-		for (int i = 0;i < N;i++) {
-			cin >> tree[size + i];
-			if (tree[size + i] > 0) tree[size + i] = 1;
-			else if (tree[size + i] < 0)tree[size + i] = -1;
-		}
-		for (int i = size + N;i < 2 * size;i++)
-			tree[i] = 1;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-		for (int i = size - 1;i > 0;i--)
-			tree[i] = tree[i << 1] * tree[(i << 1) | 1];
+    int N, K;
+    while (cin >> N >> K) {
 
-		for (int i = 0;i < K;i++) {
-			char c;
-			int x, y;
-			cin >> c >> x >> y;
-			if (c == 'C') {
-				int idx = size + x - 1;
-				if (tree[idx] * y > 0) continue; //same sign
-				if (tree[idx] == 0 && y == 0) continue;
+        Fenwick zero(N);   // 0 개수
+        Fenwick neg(N);    // 음수 개수
 
-				tree[idx] = y;
-				if (tree[idx] > 0)tree[idx] = 1;
-				else if (tree[idx] < 0)tree[idx] = -1;
+        vector<int> arr(N + 1);
 
-				y = tree[idx];
-				for (idx >>= 1;idx > 0;idx >>= 1) //modify
-					tree[idx] = tree[idx << 1] * tree[(idx << 1) | 1];
-			}
-			else {
-				int res = 1;
-				x += size - 1;
-				y += size - 1;
-				while (x <= y) {
-					if (x & 1)res *= tree[x];
-					if (!(y & 1))res *= tree[y];
-					x = (x + 1) >> 1;
-					y = (y - 1) >> 1;
-				}
-				if (res == 0) cout << res;
-				else cout << (res > 0 ? '+' : '-');
-			}
-		}
-		cout << "\n";
-	}
+        for (int i = 1; i <= N; i++) {
+            int x;
+            cin >> x;
+            if (x == 0) {
+                arr[i] = 0;
+                zero.update(i, 1);
+            }
+            else if (x < 0) {
+                arr[i] = -1;
+                neg.update(i, 1);
+            }
+            else {
+                arr[i] = 1;
+            }
+        }
+
+        while (K--) {
+            char c;
+            int a, b;
+            cin >> c >> a >> b;
+
+            if (c == 'C') {
+                int newVal;
+                if (b == 0) newVal = 0;
+                else if (b < 0) newVal = -1;
+                else newVal = 1;
+
+                if (arr[a] == newVal) continue;
+
+                // 기존 값 제거
+                if (arr[a] == 0) zero.update(a, -1);
+                if (arr[a] == -1) neg.update(a, -1);
+
+                // 새 값 추가
+                if (newVal == 0) zero.update(a, 1);
+                if (newVal == -1) neg.update(a, 1);
+
+                arr[a] = newVal;
+            }
+            else {
+                if (zero.range(a, b) > 0) {
+                    cout << "0";
+                }
+                else {
+                    int negCnt = neg.range(a, b);
+                    if (negCnt % 2) cout << "-";
+                    else cout << "+";
+                }
+            }
+        }
+        cout << "\n";
+    }
 }
