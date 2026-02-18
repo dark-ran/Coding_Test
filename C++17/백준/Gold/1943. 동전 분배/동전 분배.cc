@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<bitset>
 #define pii pair<int,int>
 
 using namespace std;
@@ -30,14 +31,12 @@ int main() {
 			}
 		}
 
-		vector<bool>dp(sum + 1, false);
-		dp[0] = true;
+		bitset<100'001>C;
+		C.reset();
+		C = 1;
 		for (int w : items) { // 0/1 knapsack
-			for (int j = sum;j >= w;j--) {
-				if (dp[j - w])
-					dp[j] = true;
-			}
+			C |= C << w;	
 		}
-		cout << (dp[sum] ? "1\n" : "0\n");
+		cout << (C.test(sum) ? "1\n" : "0\n");
 	}
 }
