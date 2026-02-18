@@ -9,7 +9,6 @@ int main() {
 	for (int T = 0;T < 3;T++) {
 		int N, sum = 0;
 		cin >> N;
-		vector<vector<bool>>dp;
 		vector<pii>data(N);
 		for (int i = 0;i < N;i++) {
 			cin >> data[i].first >> data[i].second;
@@ -20,41 +19,25 @@ int main() {
 			continue;
 		}
 		sum >>= 1;
-		bool check = false;
-		dp.resize(N + 1, vector<bool>(sum + 1, false));
-		for (int i = 1;i <= data[0].second;i++) {
-			if (data[0].first * i > sum) break;
-			if (data[0].first * i == sum) {
-				check = true;
-				break;
+		vector<int>items;
+		for (int i = 0;i < N;i++) { //binary splitting
+			int value = data[i].first;
+			int count = data[i].second;
+			for (int k = 1;count > 0;k <<= 1) {
+				int use = min(k, count);
+				items.push_back(value * use);
+				count -= use;
 			}
-			dp[0][data[0].first * i] = true;
-		}
-		if (check) {
-			cout << "1\n";
-			continue;
 		}
 
-		for (int i = 1;i < N;i++) {
-			dp[i - 1][0] = true;
-			for (int j = 0;j <= sum;j++) {
-				if (dp[i - 1][j]) {
-					dp[i][j] = true;
-					for (int k = 1;k <= data[i].second;k++) {
-						if (j + data[i].first * k > sum)break;
-						else if (j + data[i].first * k == sum) {
-							check = true;
-							break;
-						}
-						dp[i][j + data[i].first * k] = true;
-					}
-					if (check)
-						break;
-				}
+		vector<bool>dp(sum + 1, false);
+		dp[0] = true;
+		for (int w : items) { // 0/1 knapsack
+			for (int j = sum;j >= w;j--) {
+				if (dp[j - w])
+					dp[j] = true;
 			}
-			if (check)
-				break;
 		}
-		cout << (check ? "1\n" : "0\n");
+		cout << (dp[sum] ? "1\n" : "0\n");
 	}
 }
