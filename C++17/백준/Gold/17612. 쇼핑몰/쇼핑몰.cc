@@ -20,7 +20,7 @@ bool cmp(const s& a, const s& b) {
 }
 
 int main() {
-	ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr);
+	ios::sync_with_stdio(false);cin.tie(nullptr);
 	int N, K, id, w;
 	cin >> N >> K;
 	priority_queue<s, vector<s>, calculate_cmp>pq;
