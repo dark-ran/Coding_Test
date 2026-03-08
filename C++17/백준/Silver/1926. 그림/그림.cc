@@ -1,47 +1,44 @@
 #include<iostream>
-#include<queue>
 using namespace std;
 
-int board[502][502]{ 0 };
+int board[502][502];
 bool vis[502][502]{ false };
-int dx[4] = { 1,0,-1,0 };
-int dy[4] = { 0,-1,0,1 };
+
+int dx[4] = { 1,0,-1,0 };//현재값에서 주변 x위치
+int dy[4] = { 0,1,0,-1 };//현재값에서 주변 y위치
+
+int cnt = 0;
+int siz = 0;
+void bfs(int x, int y) {
+	vis[x][y] = true;
+	siz++;
+	for (int i = 0; i < 4; i++) {
+		if (board[x+dx[i]][y+dy[i]] == 1 && !vis[x+dx[i]][y+dy[i]]) {//주변 값들 체크중
+			bfs(x + dx[i], y + dy[i]);
+		}
+	}
+}
 
 int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(nullptr);
 	cout.tie(nullptr);
-	int n, m, max = 0, size;
-	int cnt = 0;
+	int n, m, max=0;
 	cin >> n >> m;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= m; j++) {
 			cin >> board[i][j];
 		}
 	}
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			if (board[i][j] == 0 || vis[i][j])
-				continue;
-			queue < pair<int, int>>q;
-			q.push({ i,j });
-			size = 0;
-			vis[i][j] = true;
-			while (!q.empty()) {
-				pair<int, int>cur = q.front();
-				q.pop();
-				size++;
-				for (int k = 0; k < 4; k++) {
-					int nx = cur.first + dx[k];
-					int ny = cur.second + dy[k];
-					if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;
-					if (board[nx][ny] == 0 || vis[nx][ny]) continue;
-					vis[nx][ny] = true;
-					q.push({ nx,ny });
-				}
+
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= m; j++) {
+			if (board[i][j] == 1 && !vis[i][j]) {
+				bfs(i, j);
+				cnt++;
+				max = max > siz ? max : siz;
+				siz = 0;
 			}
-			max = max > size ? max : size;
-			cnt++;
 		}
 	}
 	cout << cnt << "\n" << max;
