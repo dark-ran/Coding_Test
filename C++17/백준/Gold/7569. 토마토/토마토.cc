@@ -1,4 +1,4 @@
-#include<stdio.h>
+#include<iostream>
 #include<algorithm>
 #include<queue>
 #include<tuple>
@@ -43,13 +43,16 @@ void bfs() {
 }
 
 int main() {
-	scanf("%d%d%d", &m, &n, &h);
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+
+	cin >> m >> n >> h;
 	for (int k = 0; k < h; k++) {
 		for (int i = 0; i < n; i++) { //Input
 			for (int j = 0; j < m; j++) {
-				scanf("%d", &arr[i][j][k]);
+				cin >> arr[i][j][k];
 				if (arr[i][j][k] == 0) num++;
-				else if (arr[i][j][k] == 1) q.push({ i,j,k }); //시작지점들을 전부 넣어서 시간단축
+				else if (arr[i][j][k] == 1) q.push({ i,j,k });
 			}
 		}
 	}
@@ -57,10 +60,10 @@ int main() {
 	if(num!=0)
 		bfs();
 
-	if (num != 0) { //0이 제거 안되었다면
-		printf("-1");
+	if (num != 0) { //Check
+		cout << "-1";
 		return 0;
 	}
 
-	printf("%d", max_ - 1);
+	cout << max_ - 1;
 }
