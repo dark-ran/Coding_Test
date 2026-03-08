@@ -1,46 +1,44 @@
 #include<iostream>
-#include<vector>
-#define ll long long
 
 using namespace std;
 
-ll sum(vector<ll>& tree, int idx) {
-	ll ans = 0;
-	while (idx > 0) {
-		ans += tree[idx];
-		idx -= (idx & -idx);
+long long tree[2000001];
+int N;
+
+void modi(int idx, long long diff) {
+	idx = idx + N - 1;
+	while (idx) { //부모에게 계속 차이만큼 값 추가
+		tree[idx] += diff;
+		idx >>= 1;
 	}
-	return ans;
 }
 
-void update(vector<ll>& tree, int idx, ll v) {
-	while (idx < tree.size()) {
-		tree[idx] += v;
-		idx += (idx & -idx);
+long long sum(int l, int r) {
+	long long res = 0;
+	l = l + N - 1;
+	r = r + N - 1;
+	while (l <= r) {
+		if (l & 1)res += tree[l++];
+		if (!(r & 1))res += tree[r--];
+		l >>= 1;
+		r >>= 1;
 	}
+	return res;
 }
 
 int main() {
 	ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
-	int N, M, K;
-	cin >> N >> M >> K;
-	vector<ll>arr(N + 1), tree(N + 1);
-	for (int i = 1; i <= N; i++) {
-		cin >> arr[i];
-		update(tree, i, arr[i]);
-	}
-	M += K;
-	while (M--) {
-		int a, b;
-		ll c;
+	int K, M;
+	cin >> N >> K >> M;
+	for (int i = N; i < N * 2; i++)cin >> tree[i];
+	for (int i = N - 1; i > 0; i--) tree[i] = tree[i * 2] + tree[i * 2 + 1];
+	int Q = K + M;
+	long long a, b, c;
+	while (Q--) {
 		cin >> a >> b >> c;
-		if (a == 1) {
-			ll diff = c - arr[b];
-			arr[b] += diff;
-			update(tree, b, diff);
-		}
-		else {
-			cout << sum(tree, c) - sum(tree, b - 1) << "\n";
-		}
+		if (a == 1)
+			modi(b, c - tree[b + N - 1]);
+		else
+			cout << sum(b, c) << "\n";
 	}
 }
