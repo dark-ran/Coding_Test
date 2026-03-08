@@ -3,10 +3,9 @@
 using namespace std;
 
 int arr[1048577];
+int sorted[1048577];
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(nullptr);
 	long long n, k;
 	cin >> n;
 	for (long long i = 0; i < n; i++) {
