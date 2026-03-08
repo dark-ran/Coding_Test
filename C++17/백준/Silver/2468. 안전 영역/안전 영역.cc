@@ -1,17 +1,13 @@
 #include<iostream>
 #include<vector>
 #include<queue>
-#include<set>
 
 using namespace std;
 
 int N, ma, cnt, res;
 vector<vector<int>>v;
 vector<vector<bool>>check;
-set<int>arr;
 queue<pair<int, int>>q;
-
-
 int nx[4] = { -1,0,1,0 };
 int ny[4] = { 0,1,0,-1 };
 
@@ -22,14 +18,14 @@ void INPUT() {
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
 			cin >> v[i][j];
-			arr.insert(v[i][j]);
+			ma = ma > v[i][j] ? ma : v[i][j];
 		}
 	}
 }
 
 void SOL() {
 	res = 1;
-	for (auto h : arr) {
+	for (int h = 1; h < ma; h++) {
 		check = vector<vector<bool>>(N, vector<bool>(N, false));
 		cnt = 0;
 		for (int i = 0; i < N; i++) {
