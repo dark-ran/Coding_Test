@@ -3,9 +3,9 @@
 using namespace std;
 int n, m, v;
 int u, y;
-bool adj[1001][1001]{ false };//간선정보 넣기
-bool vis[1001]{ false };//dfs에서 방문한 곳 확인
-bool vis1[1001]{ false };//dfs에서 방문한 곳 확인
+bool adj[10001][10001]{ false };//간선정보 넣기
+bool vis[10001]{ false };//dfs에서 방문한 곳 확인
+bool vis1[10001]{ false };//dfs에서 방문한 곳 확인
 
 void dfs(int a) { 
 	cout << a << " ";
@@ -34,9 +34,6 @@ void bfs(int a) {
 }
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(nullptr);
-	cout.tie(nullptr);
 	cin >> n >> m >> v;
 	for (int i = 0; i < m; i++) {
 		cin >> u >> y;
