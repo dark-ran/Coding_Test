@@ -1,2 +1,4 @@
 a,b,c,d=input().split()
-print(int(a+b)+int(c+d))
+a+=b
+c+=d
+print(int(a)+int(c))
