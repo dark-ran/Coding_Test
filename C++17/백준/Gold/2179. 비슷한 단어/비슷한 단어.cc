@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<queue>
 #include<map>
 #include<algorithm>
 
@@ -20,7 +21,7 @@ int main() {
 	sort(arr.begin(), arr.end());
 	arr.erase(unique(arr.begin(), arr.end()), arr.end());
 	
-	map<string, vector<int>>ma;
+	map<string, priority_queue<int,vector<int>,greater<int>>>ma;
 	int cnt = -1;
 	for (int i = 0;i < arr.size() - 1;i++) {
 		int j;
@@ -33,24 +34,23 @@ int main() {
 		if (cnt < j) { //접두사의 길이가 더 길 때
 			ma.clear();
 			cnt = j;
-			ma[word].push_back(arr[i].second);
-			ma[word].push_back(arr[i + 1].second);
+			ma[word].push(arr[i].second);
+			ma[word].push(arr[i + 1].second);
 		}
 		else if (cnt == j) { //접두사의 길이가 같을 때
-			ma[word].push_back(arr[i].second);
-			ma[word].push_back(arr[i + 1].second);
+			ma[word].push(arr[i].second);
+			ma[word].push(arr[i + 1].second);
 		}
 	}
 
 	cnt = 20'001; //가장 앞에 있는 위치
 	string S, T;
 	for (auto a : ma) {
-		sort(a.second.begin(), a.second.end());
-		a.second.erase(unique(a.second.begin(), a.second.end()), a.second.end());
-		if (a.second[0] < cnt) {
-			cnt = a.second[0];
-			S = origin[a.second[0]];
-			T = origin[a.second[1]];
+		if (a.second.top() < cnt) {
+			cnt = a.second.top();
+			S = origin[a.second.top()];
+			while (a.second.top() == cnt) a.second.pop();
+			T = origin[a.second.top()];
 		}
 	}
 	cout << S << "\n" << T;
