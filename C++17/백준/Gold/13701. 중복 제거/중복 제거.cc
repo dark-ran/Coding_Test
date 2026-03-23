@@ -4,7 +4,7 @@ using namespace std;
 
 bitset<33554433> vis;
 
-const int BUFFER_SIZE = 1 << 20;
+const int BUFFER_SIZE = 1048576;
 char input_buffer[BUFFER_SIZE];
 char output_buffer[BUFFER_SIZE];
 int input_pos = 0, input_len = 0;
