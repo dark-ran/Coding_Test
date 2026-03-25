@@ -6,7 +6,7 @@ using namespace std;
 ll MAX = 1e18;
 
 int main() {
-	ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr);
+	ios::sync_with_stdio(false);cin.tie(nullptr);
 	ll T, N, K, a, b, S;
 	cin >> T;
 	while (T--) {
