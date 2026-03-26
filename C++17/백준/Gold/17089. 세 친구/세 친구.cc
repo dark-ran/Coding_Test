@@ -26,7 +26,7 @@ int main() {
 
 		for (auto b : v[a]) { //두번째친구 B
 			for (auto c : v[b]) { //세번째친구 C
-				if (vis[c])
+				if (b < c && vis[c])
 					res = min(res, v[a].size() + v[b].size() + v[c].size() - 6);
 			}
 		}
