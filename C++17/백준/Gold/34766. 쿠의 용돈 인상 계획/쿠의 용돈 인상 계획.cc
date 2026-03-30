@@ -2,15 +2,21 @@
 
 using namespace std;
 
-string makestring(int n, int k) {
+string mid;
+
+void makestring(int n, int k) {
 	if (k == 0)
-		return string(1, char('0' + n));
-	if (n == 1)
-		return makestring(9, k - 1);
-	else if (n == 9)
-		return makestring(8, k - 1) + "1";
-	else
-		return string(1, char('0' + n - 1)) + makestring(10 - n, k - 1);
+		mid += string(1, char('0' + n));
+	else if (n == 1)
+		makestring(9, k - 1);
+	else if (n == 9) {
+		makestring(8, k - 1);
+		mid += "1";
+	}
+	else {
+		mid += string(1, char('0' + n - 1));
+		makestring(10 - n, k - 1);
+	}
 }
 
 int main() {
@@ -20,6 +26,7 @@ int main() {
 	cin >> T;
 	while (T--) {
 		cin >> D >> K >> N;
+		mid = "";
 		int idx = -1;
 		for (int i = N.size() - 1;i >= 0;i--) {
 			if (N[i] > '1') { //가장 오른쪽 2이상인 위치 찾기
@@ -30,7 +37,7 @@ int main() {
 		
 		if (idx != -1) {
 			int d = N[idx] - '0';
-			string mid = makestring(d, K);
+			makestring(d, K);
 			cout << N.substr(0, idx) << mid << N.substr(idx + 1) << "\n";
 		}
 		else { //전부 0과1이면
@@ -40,7 +47,8 @@ int main() {
 					break;
 				}
 			}
-			string mid = makestring(1, K);
+			
+			makestring(1, K);
 			cout << N.substr(0, idx) << mid << N.substr(idx + 1) << "\n";
 		}
 	}
