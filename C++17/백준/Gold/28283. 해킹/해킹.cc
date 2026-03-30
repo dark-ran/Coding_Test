@@ -2,9 +2,9 @@
 #include<vector>
 #include<queue>
 #include<algorithm>
-
 #define INF 1987654321
 #define ll long long
+
 using namespace std;
 
 int main() {
@@ -25,19 +25,21 @@ int main() {
 		v[e - 1].push_back(s - 1);
 	}
 
-	queue<pair<int, int>>q;
+	queue<int>q;
 	for (int i = 0;i < Y;i++) {
 		cin >> s;
-		q.push({ s - 1,0 });
+		q.push(s - 1);
+		vacine[s - 1] = 0;
 	}
 
 	while (!q.empty()) {
-		auto cur = q.front();
+		int cur = q.front();
 		q.pop();
-		if (vacine[cur.first] > cur.second) {
-			vacine[cur.first] = cur.second;
-			for (auto a : v[cur.first]) {
-				q.push({ a,cur.second + 1 });
+
+		for (int nxt : v[cur]) {
+			if (vacine[nxt] == INF) {
+				vacine[nxt] = vacine[cur] + 1;
+				q.push(nxt);
 			}
 		}
 	}
