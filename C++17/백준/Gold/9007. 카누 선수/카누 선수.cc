@@ -1,9 +1,10 @@
 #include <iostream>
-#include <vector>
 #include <algorithm>
 #include <climits>
 #define ll long long
 using namespace std;
+
+int A[1001], B[1001], C[1001], D[1001], AB[1'000'001], CD[1'000'001];
 
 int main() {
     ios::sync_with_stdio(false);
@@ -14,34 +15,28 @@ int main() {
 
     while (T--) {
         cin >> K >> N;
-
-        vector<int> A(N), B(N), C(N), D(N);
         for (int i = 0; i < N; i++) cin >> A[i];
         for (int i = 0; i < N; i++) cin >> B[i];
         for (int i = 0; i < N; i++) cin >> C[i];
         for (int i = 0; i < N; i++) cin >> D[i];
 
         int sz = N * N;
-        vector<int> AB;
-        vector<int> CD;
-        AB.reserve(sz);
-        CD.reserve(sz);
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                AB.push_back(A[i] + B[j]);
-                CD.push_back(C[i] + D[j]);
+                AB[i * N + j] = A[i] + B[j];
+                CD[i * N + j] = C[i] + D[j];
             }
         }
 
-        sort(AB.begin(), AB.end());
-        sort(CD.begin(), CD.end());
+        sort(AB, AB + sz);
+        sort(CD, CD + sz);
 
         ll best = (ll)AB[0] + CD[0];
         int i = 0;
-        int j = (int)CD.size() - 1;
+        int j = sz - 1;
 
-        while (i < (int)AB.size() && j >= 0) {
+        while (i < sz && j >= 0) {
             ll cur = (ll)AB[i] + CD[j];
 
             if (llabs((ll)K - cur) < llabs((ll)K - best)) {
