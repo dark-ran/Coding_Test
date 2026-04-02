@@ -1,50 +1,70 @@
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#define abs(x) ((x)<0?-(x):(x))
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+#define ll long long
 using namespace std;
 
 int main() {
-	ios::sync_with_stdio(false);cin.tie(nullptr);
-	int T, K, N;
-	cin >> T;
-	while (T--) {
-		cin >> K >> N;
-		vector<int>A(N), B(N), C(N), D(N);
-		for (int i = 0;i < N;i++) cin >> A[i];
-		for (int i = 0;i < N;i++) cin >> B[i];
-		for (int i = 0;i < N;i++) cin >> C[i];
-		for (int i = 0;i < N;i++) cin >> D[i];
-		vector<int>AB;
-		vector<int>CD;
-		for (int i = 0;i < N;i++) {
-			for (int j = 0;j < N;j++) {
-				AB.push_back(A[i] + B[j]);
-				CD.push_back(C[i] + D[j]);
-			}
-		}
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-		sort(AB.begin(), AB.end());
-		sort(CD.begin(), CD.end());
-		int res = 19876654321;
-		for (int i = 0;i < AB.size();i++) {
-			int a = lower_bound(CD.begin(), CD.end(), K - AB[i]) - CD.begin();
-			int b = a - 1;
-			if (a == 0); //a가 맨 앞이면
-			else if (a == AB.size()) //a가 맨 뒤면
-				a = b;
-			else if (abs(K - AB[i] - CD[a]) > abs(K - AB[i] - CD[b])) { //b가 더 가까울
-				a = b;
-			}
-			else if (abs(K - AB[i] - CD[a]) == abs(K - AB[i] - CD[b]) && K > AB[i] + CD[b]) { //b가 더 작을
-				a = b;
-			}
+    int T, K, N;
+    cin >> T;
 
-			if (abs(K - res) > abs(K - AB[i] - CD[a]))
-				res = AB[i] + CD[a];
-			else if (abs(K - res) == abs(K - AB[i] - CD[a]) && K > AB[i] + CD[a])
-				res = AB[i] + CD[a];
-		}
-		cout << res << "\n";
-	}
+    while (T--) {
+        cin >> K >> N;
+
+        vector<int> A(N), B(N), C(N), D(N);
+        for (int i = 0; i < N; i++) cin >> A[i];
+        for (int i = 0; i < N; i++) cin >> B[i];
+        for (int i = 0; i < N; i++) cin >> C[i];
+        for (int i = 0; i < N; i++) cin >> D[i];
+
+        int sz = N * N;
+        vector<int> AB;
+        vector<int> CD;
+        AB.reserve(sz);
+        CD.reserve(sz);
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                AB.push_back(A[i] + B[j]);
+                CD.push_back(C[i] + D[j]);
+            }
+        }
+
+        sort(AB.begin(), AB.end());
+        sort(CD.begin(), CD.end());
+
+        ll best = (ll)AB[0] + CD[0];
+        int i = 0;
+        int j = (int)CD.size() - 1;
+
+        while (i < (int)AB.size() && j >= 0) {
+            ll cur = (ll)AB[i] + CD[j];
+
+            if (llabs((ll)K - cur) < llabs((ll)K - best)) {
+                best = cur;
+            }
+            else if (llabs((ll)K - cur) == llabs((ll)K - best) && cur < best) {
+                best = cur;
+            }
+
+            if (cur > K) {
+                j--;
+            }
+            else if (cur < K) {
+                i++;
+            }
+            else {
+                // 정확히 K면 최적이지만,
+                // 같은 차이일 때 더 작은 값을 원한다면 중복 처리 필요
+                best = cur;
+                j--;
+            }
+        }
+
+        cout << best << '\n';
+    }
 }
