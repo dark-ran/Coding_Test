@@ -1,16 +1,15 @@
 #include<iostream>
-#include<vector>
 
 using namespace std;
 
+int f[1'000'001];
+string S;
+int L;
+
 int main() {
-	ios::sync_with_stdio(false);cin.tie(nullptr);
-	int L;
-	cin >> L;
-	string S;
-	cin >> S;
+	ios::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr);
+	cin >> L >> S;
 	int j = 0;
-	vector<int>f(S.size(), false);
 	for (int i = 1;i < S.size();i++) {
 		while (j > 0 && S[i] != S[j])
 			j = f[j - 1];
