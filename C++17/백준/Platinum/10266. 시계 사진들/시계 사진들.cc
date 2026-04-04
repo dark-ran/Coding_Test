@@ -1,54 +1,61 @@
 #include<iostream>
+#include<bitset>
 #include<vector>
-#include<algorithm>
 
 using namespace std;
 
 int main() {
 	ios::sync_with_stdio(false);cin.tie(nullptr);
-	int n;
-	cin >> n;
-	vector<int>f(n, false);
-	vector<int>A(n * 2), B(n);
+	int N, x;
+	cin >> N;
+	bitset<360'000>check;
+	vector<int>A(N * 2), B(N);
 
-	for (int i = 0;i < n;i++)
-		cin >> A[i];
-	for (int i = 0;i < n;i++)
-		cin >> B[i];
-
-	sort(A.begin(), A.begin() + n);
-	sort(B.begin(), B.end());
-
-	int a = A[n - 1], b = B[n - 1];
-	for (int i = n - 1;i > 0;i--) {
-		A[i] -= A[i - 1];
-		B[i] -= B[i - 1];
+	for (int i = 0;i < N;i++) {
+		cin >> x;
+		check[x] = true;
 	}
-	A[0] = A[0] + 360000 - a;
-	B[0] = B[0] + 360000 - b;
+	for (int i = 0, j = 0, prv = -1, st = -1;i <= 360'000;i++) {
+		if (i<360'000 && !check[i]) continue;
+		if (prv != -1) A[j++] = (j == N - 1 ? 360'000 - prv + st : i - prv);
+		else st = i;
+		prv = i;
+	}
 
-	for (int i = n;i < 2 * n;i++)
-		A[i] = A[i - n];
+	check.reset();
 
-	int j = 0;
-	for (int i = 1;i < n;i++) {
+	for (int i = 0;i < N;i++) {
+		cin >> x;
+		check[x] = true;
+	}
+
+	for (int i = 0, j = 0, prv = -1, st = -1;i <= 360'000;i++) {
+		if (i<360'000 && !check[i]) continue;
+		if (prv != -1) B[j++] = (j == N - 1 ? 360'000 - prv + st : i - prv);
+		else st = i;
+		prv = i;
+	}
+
+	for (int i = 0;i < N;i++)
+		A[i + N] = A[i];
+	
+	vector<int>f(N);
+	for (int i = 1, j = 0;i < N;i++) {
 		while (j > 0 && B[i] != B[j])
 			j = f[j - 1];
 		if (B[i] == B[j])
 			f[i] = ++j;
 	}
 
-	b = 0;
-	for (a = 0;a < n * 2;a++) {
-		while (b > 0 && A[a] != B[b])
-			b = f[b - 1];
-		if (A[a] == B[b]) {
-			if (++b == n) {
+	for (int i = 0, j = 0;i < (N << 1);i++) {
+		while (j > 0 && A[i] != B[j])
+			j = f[j - 1];
+		if (A[i] == B[j]) {
+			if (++j == N) {
 				cout << "possible";
 				return 0;
 			}
 		}
 	}
 	cout << "impossible";
-	return 0;
 }
