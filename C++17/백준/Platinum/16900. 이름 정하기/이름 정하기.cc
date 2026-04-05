@@ -1,9 +1,8 @@
 #include<iostream>
+#include<vector>
 #define ll long long
 
 using namespace std;
-
-int f[500'001];
 
 int main() {
 	ios::sync_with_stdio(false);cin.tie(nullptr);
@@ -11,6 +10,7 @@ int main() {
 	int k;
 	cin >> s >> k;
 	int n = s.size();
+	vector<int>f(n);
 	for (int i = 1, j = 0;i < n;i++) {
 		while (j > 0 && s[i] != s[j])
 			j = f[j - 1];
